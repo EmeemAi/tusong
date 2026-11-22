@@ -1,0 +1,12 @@
+﻿# Tokens y credenciales privadas
+scripts/.env_meta
+.env
+*.env
+.env*
+
+# Archivos de audio generados de clientes
+canciones/*.mp3
+
+# Sistema operativo
+Thumbs.db
+.DS_Store

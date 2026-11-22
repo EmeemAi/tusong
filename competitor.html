@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Consentimento (UE): decide ANTES de qualquer rastreador carregar -->
+<script>
+(function(){
+  var UE = false;
+  try {
+    var tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || "");
+    UE = /^Europe\//.test(tz) || /^Atlantic\/(Canary|Azores|Madeira|Faroe)/.test(tz);
+  } catch(e){}
+  var escolha = null;
+  try { escolha = localStorage.getItem("consent_v1"); } catch(e){}
+  window.__zonaUE = UE;
+  window.__consentimento = escolha;              /* "si" | "no" | null */
+  window.__podeRastrear = (!UE) || escolha === "si";
+})();
+</script>
+<!-- Google tag (gtag.js) -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18342490152');
+  window.__injetarGtag = function(){
+    if (window.__gtagInjetado) return; window.__gtagInjetado = 1;
+    var g = document.createElement('script'); g.async = true;
+    g.src = 'https://www.googletagmanager.com/gtag/js?id=AW-18342490152';
+    document.head.appendChild(g);
+  };
+  if (window.__podeRastrear) window.__injetarGtag();
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Cantoria — Canción personalizada con demo gratis</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23FFB35C'/><stop offset='1' stop-color='%23FF7BAC'/></linearGradient></defs><rect width='100' height='100' rx='24' fill='url(%23g)'/><text x='50' y='72' font-size='62' text-anchor='middle' fill='%23241338' font-family='Arial'>&#9834;</text></svg>">
+<meta name="description" content="Crea una canción exclusiva con el nombre y la historia de quien amas. Escucha la demo gratis antes de pagar. Cumpleaños, bodas, declaraciones de amor y más.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
+f.__injetarPixel=function(){if(f.__pixelInjetado)return;f.__pixelInjetado=1;
+t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s);};}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1645692976498218');
+fbq('track','PageView');
+/* Sem consentimento na UE o script nao carrega: os eventos ficam na fila
+   e so sao enviados se a pessoa aceitar. Nenhum cookie e criado antes. */
+if (window.__podeRastrear) window.__injetarPixel();
+</script>
+<!-- /Meta Pixel -->
+<style>
+:root{
+  --bg:#191029;--bg-2:#221639;--card:#2A1C47;--ink:#F7F2EA;--muted:#B7A9D6;
+  --gold:#FFB35C;--gold-deep:#E8933A;--rose:#FF7BAC;--line:rgba(247,242,234,.12);--radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{max-width:100%;overflow-x:clip}
+img,svg,video,iframe{max-width:100%;height:auto}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Instrument Sans',system-ui,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Bricolage Grotesque',serif;line-height:1.12}
+a{color:var(--gold);text-decoration:none}
+.wrap{max-width:680px;margin:0 auto;padding:0 20px}
+
+header{padding:16px 0;position:sticky;top:0;background:rgba(25,16,41,.85);backdrop-filter:blur(10px);z-index:50}
+.topbar{display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Bricolage Grotesque';font-weight:800;font-size:1.3rem;letter-spacing:-.02em}
+.brand .note{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--rose));display:grid;place-items:center;color:var(--bg);font-size:.95rem}
+.top-cta{font-size:.92rem;font-weight:800;background:linear-gradient(90deg,var(--gold),var(--rose));color:#fff;padding:11px 20px;border-radius:999px;box-shadow:0 4px 14px rgba(255,123,172,.35);animation:ctaPulse 2s ease-in-out infinite;white-space:nowrap}
+.top-cta:hover{filter:brightness(1.08)}
+@keyframes ctaPulse{0%,100%{box-shadow:0 4px 14px rgba(255,123,172,.35),0 0 0 0 rgba(255,123,172,.55)}50%{box-shadow:0 4px 18px rgba(255,123,172,.5),0 0 0 12px rgba(255,123,172,0)}}
+@media (prefers-reduced-motion:reduce){.top-cta{animation:none}}
+
+.hero{padding:18px 0 4px;text-align:left}
+.previa-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(255,123,172,.12);border:1px solid rgba(255,123,172,.4);color:var(--rose);font-weight:600;font-size:.85rem;padding:6px 14px;border-radius:999px;margin-bottom:10px}
+.hero h1{font-size:clamp(2.1rem,7.5vw,3.3rem);font-weight:800;letter-spacing:-.03em}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--gold),var(--rose));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.sub{color:var(--muted);margin-top:10px;font-size:1.02rem;max-width:34ch}
+
+.player{margin-top:26px;background:linear-gradient(160deg,var(--card),var(--bg-2));border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.player .tag{display:inline-block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(255,179,92,.4);border-radius:999px;padding:3px 10px}
+.player .song{margin-top:12px;font-family:'Bricolage Grotesque';font-weight:600;font-size:1.35rem;min-height:2.2em;transition:opacity .4s}
+.player .style{color:var(--muted);font-size:.92rem;margin-top:2px}
+.eq{display:flex;align-items:flex-end;gap:4px;height:44px;margin-top:16px}
+.eq span{flex:1;max-width:10px;border-radius:3px;background:linear-gradient(180deg,var(--rose),var(--gold));animation:bounce 1.1s ease-in-out infinite;transform-origin:bottom}
+.eq span:nth-child(2n){animation-duration:.9s;animation-delay:.15s}
+.eq span:nth-child(3n){animation-duration:1.3s;animation-delay:.3s}
+.eq span:nth-child(5n){animation-duration:.8s;animation-delay:.05s}
+@keyframes bounce{0%,100%{transform:scaleY(.25)}50%{transform:scaleY(1)}}
+@media (prefers-reduced-motion:reduce){.eq span{animation:none;transform:scaleY(.6)}}
+
+/* ===== Ajustes de celular: centralizar o conteudo ===== */
+@media (max-width:680px){
+  .wrap{padding:0 16px}
+  .hero{text-align:center;padding:14px 0 4px}
+  .hero p.sub{margin-left:auto;margin-right:auto}
+  .hero h1{font-size:clamp(1.9rem,8vw,2.6rem)}
+  .eyebrow{text-align:center}
+  h2{text-align:center}
+  .card{padding:18px 16px}
+  label{font-size:.92rem}
+}
+.player .bar{margin-top:14px;display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.85rem}
+.player .bar .line{flex:1;height:4px;border-radius:2px;background:var(--line);position:relative;overflow:hidden}
+.player .bar .line i{position:absolute;inset:0;width:38%;background:var(--gold);border-radius:2px}
+
+.cta{display:block;text-align:center;background:linear-gradient(90deg,var(--gold),var(--gold-deep));color:#241338;font-weight:600;font-size:1.08rem;padding:17px 24px;border-radius:14px;border:0;cursor:pointer;font-family:inherit;width:100%}
+.cta.pulse{animation:pulse 2s infinite;box-shadow:0 10px 30px rgba(255,179,92,.25)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,179,92,.5)}70%{box-shadow:0 0 0 16px rgba(255,179,92,0)}100%{box-shadow:0 0 0 0 rgba(255,179,92,0)}}
+.cta:active{transform:scale(.98)}
+.hero-cta{margin-top:26px}
+.hero .hint{text-align:center;color:var(--muted);font-size:.86rem;margin-top:10px}
+
+.trust-strip{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 20px;margin-top:18px;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.trust-strip span{font-size:.85rem;color:var(--muted);display:flex;align-items:center;gap:6px}
+
+section{padding:44px 0}
+.eyebrow{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+h2{font-size:clamp(1.5rem,5.5vw,2.1rem);font-weight:800;letter-spacing:-.02em}
+.sec-sub{color:var(--muted);margin-top:8px}
+
+.exemplos{display:grid;gap:14px;margin-top:24px}
+.ex-card{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px}
+.ex-top{display:flex;align-items:center;gap:14px}
+.ex-play{width:48px;height:48px;min-width:48px;border:0;border-radius:50%;cursor:pointer;background:linear-gradient(135deg,var(--gold),var(--rose));color:#241338;font-size:1.05rem;display:grid;place-items:center}
+.ex-meta{flex:1}
+.ex-nome{font-family:'Bricolage Grotesque';font-weight:600;font-size:1.02rem}
+.ex-desc{color:var(--muted);font-size:.86rem}
+.ex-bar{margin-top:12px;height:5px;border-radius:3px;background:var(--line);overflow:hidden}
+.ex-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--rose),var(--gold));border-radius:3px;transition:width .2s linear}
+
+.steps{display:grid;gap:14px;margin-top:22px}
+.step{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;display:flex;gap:16px;align-items:flex-start}
+.step .n{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.4rem;color:var(--gold);min-width:1.4em}
+.step h3{font-size:1.08rem;font-weight:600}
+.step p{color:var(--muted);font-size:.95rem;margin-top:4px}
+
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.chips span{border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:.95rem;color:var(--ink);background:var(--bg-2)}
+
+.price-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px 22px;text-align:center;margin-top:22px}
+.price-card .destaque{display:inline-block;background:var(--rose);color:#241338;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:999px;margin-bottom:14px}
+.price-card .promo-lancamento{display:block;background:linear-gradient(90deg,var(--gold),var(--rose));color:#241338;font-size:.8rem;font-weight:800;letter-spacing:.05em;padding:8px 14px;border-radius:10px;margin-bottom:12px;animation:promoglow 2s ease-in-out infinite}
+@keyframes promoglow{0%,100%{box-shadow:0 0 0 0 rgba(255,179,92,.4)}50%{box-shadow:0 0 20px 2px rgba(255,123,172,.5)}}
+.price-card .valor{font-family:'Bricolage Grotesque';font-weight:800;font-size:3rem;letter-spacing:-.03em}
+.price-card .valor small{font-size:1.1rem;font-weight:400;color:var(--muted)}
+.price-card .de{color:var(--muted);font-size:.95rem;margin-top:6px}
+.price-card ul{list-style:none;margin-top:18px;text-align:left;display:grid;gap:10px}
+.price-card li{padding-left:28px;position:relative}
+.price-card li::before{content:"♪";position:absolute;left:4px;color:var(--gold)}
+.price-card .previa-free{margin-top:16px;font-size:.95rem;color:var(--rose);font-weight:600}
+
+.deps{display:grid;gap:12px;margin-top:22px}
+.dep{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.dep .stars{color:var(--gold);font-size:.9rem}
+.dep p{margin-top:6px;font-size:.95rem}
+.dep .quem{margin-top:8px;color:var(--muted);font-size:.85rem;font-weight:600}
+
+#pedido .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 20px;margin-top:22px}
+label{display:block;font-weight:600;font-size:.95rem;margin:18px 0 6px}
+label:first-of-type{margin-top:0}
+input,select,textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;color:var(--ink);font-family:inherit;font-size:1rem;padding:13px 14px}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:transparent}
+textarea{min-height:120px;resize:vertical}
+.opt-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.voice{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.voice input{position:absolute;opacity:0;pointer-events:none}
+.voice span{display:block;text-align:center;border:1px solid var(--line);border-radius:12px;padding:13px;cursor:pointer;background:var(--bg)}
+.voice input:checked + span{border-color:var(--gold);color:var(--gold);background:rgba(255,179,92,.08)}
+.voice input:focus-visible + span{outline:2px solid var(--gold)}
+.help{color:var(--muted);font-size:.84rem;margin-top:5px}
+.resumo-pedido{display:none;margin:8px 0 4px;padding:10px 12px;border-radius:10px;background:rgba(255,179,92,.10);border:1px solid rgba(255,179,92,.35);font-size:.85rem;color:#FFD7A8;line-height:1.45}
+.check-inline{display:flex;align-items:flex-start;gap:8px;margin-top:8px;margin-bottom:4px;cursor:pointer;font-size:.9rem;color:var(--ink);font-weight:400}
+.check-inline input{width:auto;margin:2px 0 0 0;flex-shrink:0;cursor:pointer}
+.check-inline span{line-height:1.4}
+.email-dica{font-size:.85rem;margin-top:5px;min-height:1em}
+.email-dica.sugerir{color:var(--gold);cursor:pointer}
+.email-dica.sugerir u{font-weight:600}
+.email-erro{font-size:.85rem;margin-top:5px;min-height:1em;color:var(--rose)}
+.hidden-field{display:none;margin-top:10px}
+.hidden-field.show{display:block}
+.submit{width:100%;border:0;cursor:pointer;margin-top:26px;background:linear-gradient(90deg,var(--gold),var(--gold-deep));color:#241338;font-weight:600;font-size:1.08rem;font-family:inherit;padding:17px;border-radius:14px}
+.submit:disabled{opacity:.6;cursor:wait}
+#form-status{margin-top:14px;text-align:center;font-size:.95rem;min-height:1.4em}
+#form-status.ok{color:var(--gold)}
+#form-status.erro{color:var(--rose)}
+
+details{border-bottom:1px solid var(--line);padding:16px 0}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::after{content:"+";color:var(--gold);font-family:'Bricolage Grotesque';font-size:1.3rem}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin-top:10px;font-size:.97rem}
+
+footer{padding:36px 0 48px;color:var(--muted);font-size:.85rem;text-align:center;border-top:1px solid var(--line);margin-top:20px}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap topbar">
+    <div class="brand"><span class="note">♪</span> Cantoria</div>
+    <a href="#pedido" class="top-cta">Crear canción</a>
+  </div>
+</header>
+
+<div class="wrap hero" style="padding-bottom:0">
+  <div class="previa-badge">🎧 Demo gratis · solo pagas si te encanta</div>
+  <h1 style="margin-bottom:10px">Crea una canción única <em>para quien tú amas</em></h1>
+  <p class="sub" style="margin-bottom:14px">Escucha tu demo gratis. Lista en minutos, con su nombre y su historia. 🎧</p>
+</div>
+
+<section class="wrap" id="pedido">
+  <form class="card" id="form-musica" novalidate>
+    <div id="form-progresso" style="height:6px;background:#eee;border-radius:99px;margin-bottom:18px;overflow:hidden">
+      <div id="form-progresso-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#FF7BAC,#FF4D6D);transition:width .3s;border-radius:99px"></div>
+    </div>
+    <label for="ocasiao">¿Cuál es la ocasión?</label>
+    <select id="ocasiao" name="ocasiao" required>
+      <option value="" disabled selected>Elige la ocasión</option>
+      <option>Cumpleaños</option><option>Boda</option><option>Graduación</option>
+      <option>Declaración de amor</option><option>Baby shower</option><option>Día de las Madres</option>
+      <option>Día del Padre</option><option>Homenaje</option><option>Pedir perdón</option>
+      <option>Navidad</option>
+      <option value="Outra">Otra ocasión…</option>
+    </select>
+    <input id="ocasiao-outro" name="ocasiao_outro" type="text" class="hidden-field" placeholder="Cuéntanos cuál es la ocasión">
+
+    <label for="nome_cliente">Tu nombre</label>
+    <input id="nome_cliente" name="nome_cliente" type="text" placeholder="¿Cómo te llamas?" required>
+    <label class="check-inline">
+      <input type="checkbox" id="nome_na_musica" name="nome_na_musica" value="sim">
+      <span>Quiero que mi nombre aparezca en la canción (ej.: "con cariño, de Diego") 💛</span>
+    </label>
+
+    <label for="nome">🎁 ¿Para quién es la canción?</label>
+    <input id="nome" name="nome_homenageado" type="text" placeholder="Ej.: Elena" required>
+    <p class="help">El nombre de la persona que va a <strong>recibir</strong> la canción — no el tuyo 😊</p>
+    <p id="nome-aviso" class="email-erro"></p>
+
+    <label for="relacao">¿Quién es esa persona para ti?</label>
+    <input id="relacao" name="relacao" type="text" placeholder="Ej.: mi madre, mi esposo, mi mejor amiga" required>
+    <p id="resumo-pedido" class="resumo-pedido"></p>
+
+    <label for="historia">Detalles que deben estar en la canción</label>
+    <textarea id="historia" name="historia" placeholder="Cuenta apodos, recuerdos, manías, logros… Cuantos más detalles, más emocionante queda. Ej.: hace las mejores arepas del mundo, crió 3 hijos sola, ama a Juan Gabriel." required></textarea>
+    <p class="help">De aquí nace la letra — ¡esmérate! 💛</p>
+
+    <div class="opt-row">
+      <div>
+        <label for="estilo">Estilo musical</label>
+        <select id="estilo" name="estilo" required>
+          <option value="" disabled selected>Elige el estilo</option>
+          <option>Balada romántica</option><option>Cumbia</option><option>Reggaeton</option>
+          <option>Bachata</option><option>Ranchera / Mariachi</option><option>Pop latino</option>
+          <option>Rock en español</option><option>Salsa</option><option>Vallenato</option>
+          <option>Banda / Norteño</option><option>Merengue</option><option>Tango</option>
+          <option>Rumba flamenca</option><option>Flamenco</option><option>Copla</option>
+          <option>Cristiana / Alabanza</option>
+          <option value="Outro">Otro estilo…</option>
+        </select>
+        <input id="estilo-outro" name="estilo_outro" type="text" class="hidden-field" placeholder="Ej.: años 80, norteño, trap latino">
+      </div>
+      <div>
+        <label for="clima">Clima de la canción</label>
+        <select id="clima" name="clima" required>
+          <option value="" disabled selected>Elige el clima</option>
+          <option>Emotiva</option><option>Alegre / Festiva</option>
+          <option>Romántica</option><option>Divertida / Graciosa</option>
+        </select>
+      </div>
+    </div>
+
+    <label>Voz</label>
+    <div class="voice">
+      <label><input type="radio" name="voz" value="feminina" required><span>Voz femenina</span></label>
+      <label><input type="radio" name="voz" value="masculina"><span>Voz masculina</span></label>
+    </div>
+
+
+    <!-- Contato: aparece só depois de clicar em "Generar mi demo gratis" -->
+    <div id="contacto-capa" style="display:none;position:fixed;inset:0;background:rgba(30,18,45,.55);z-index:9500;backdrop-filter:blur(2px)"></div>
+    <div id="contacto-modal" style="display:none;position:fixed;z-index:9600;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,92vw);max-height:88vh;overflow-y:auto;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 20px;box-shadow:0 20px 60px rgba(0,0,0,.55)">
+      <button type="button" id="contacto-fechar" style="position:absolute;top:10px;right:14px;background:none;border:none;font-size:1.5rem;color:var(--muted);cursor:pointer;line-height:1">&times;</button>
+      <h3 style="margin:0 0 4px;font-size:1.15rem;color:var(--ink)">¡Tu canción está casi lista! 🎵</h3>
+      <p style="margin:0 0 16px;font-size:.88rem;color:var(--muted)">Solo dinos a dónde te la enviamos.</p>
+    <label for="email" style="margin-top:4px">Tu correo electrónico</label>
+    <input id="email" name="email" type="email" placeholder="Adónde enviamos tu demo" required autocomplete="email">
+    <p id="email-dica" class="email-dica"></p>
+
+    <label for="email2">Confirma tu correo</label>
+    <input id="email2" name="email2" type="email" placeholder="Escribe tu correo otra vez" required autocomplete="off" onpaste="return false;" oncopy="return false;">
+    <p id="email2-erro" class="email-erro"></p>
+
+    <label for="telefono">📲 ¿Quieres recibir tu canción por WhatsApp? <span style="font-weight:400;color:#9b8db5">(opcional)</span></label>
+    <div style="display:flex;gap:8px">
+      <select id="ddi" style="max-width:150px" aria-label="Código de país">
+        <optgroup label="América Latina">
+        <option value="52">🇲🇽 +52 México</option>
+        <option value="57">🇨🇴 +57 Colombia</option>
+        <option value="54">🇦🇷 +54 Argentina</option>
+        <option value="56">🇨🇱 +56 Chile</option>
+        <option value="51">🇵🇪 +51 Perú</option>
+        <option value="593">🇪🇨 +593 Ecuador</option>
+        <option value="598">🇺🇾 +598 Uruguay</option>
+        <option value="595">🇵🇾 +595 Paraguay</option>
+        <option value="591">🇧🇴 +591 Bolivia</option>
+        <option value="502">🇬🇹 +502 Guatemala</option>
+        <option value="503">🇸🇻 +503 El Salvador</option>
+        <option value="504">🇭🇳 +504 Honduras</option>
+        <option value="505">🇳🇮 +505 Nicaragua</option>
+        <option value="506">🇨🇷 +506 Costa Rica</option>
+        <option value="507">🇵🇦 +507 Panamá</option>
+        <option value="58">🇻🇪 +58 Venezuela</option>
+        <option value="1">🇩🇴 +1 Rep. Dominicana</option>
+        <option value="53">🇨🇺 +53 Cuba</option>
+        <option value="1787">🇵🇷 +1 Puerto Rico</option>
+        </optgroup>
+        <optgroup label="Estados Unidos / Canadá">
+        <option value="1">🇺🇸 +1 Estados Unidos</option>
+        <option value="1ca">🇨🇦 +1 Canadá</option>
+        </optgroup>
+        <optgroup label="Europa">
+        <option value="34">🇪🇸 +34 España</option>
+        <option value="351">🇵🇹 +351 Portugal</option>
+        <option value="33">🇫🇷 +33 Francia</option>
+        <option value="39">🇮🇹 +39 Italia</option>
+        <option value="49">🇩🇪 +49 Alemania</option>
+        <option value="44">🇬🇧 +44 Reino Unido</option>
+        <option value="41">🇨🇭 +41 Suiza</option>
+        <option value="31">🇳🇱 +31 Países Bajos</option>
+        <option value="32">🇧🇪 +32 Bélgica</option>
+        <option value="46">🇸🇪 +46 Suecia</option>
+        <option value="47">🇳🇴 +47 Noruega</option>
+        <option value="353">🇮🇪 +353 Irlanda</option>
+        </optgroup>
+        <optgroup label="Brasil">
+        <option value="55">🇧🇷 +55 Brasil</option>
+        </optgroup>
+        <optgroup label="Otros">
+        <option value="61">🇦🇺 +61 Australia</option>
+        <option value="64">🇳🇿 +64 Nueva Zelanda</option>
+        <option value="81">🇯🇵 +81 Japón</option>
+        <option value="86">🇨🇳 +86 China</option>
+        <option value="91">🇮🇳 +91 India</option>
+        <option value="63">🇵🇭 +63 Filipinas</option>
+        <option value="27">🇿🇦 +27 Sudáfrica</option>
+        <option value="212">🇲🇦 +212 Marruecos</option>
+        <option value="972">🇮🇱 +972 Israel</option>
+        <option value="971">🇦🇪 +971 Emiratos Árabes</option>
+        <option value="__otro">🌍 Otro país…</option>
+        </optgroup>
+      </select>
+      <input id="telefono" name="telefono" type="tel" inputmode="numeric" placeholder="Ej.: 55 1234 5678" style="flex:1">
+    </div>
+    <input id="ddi-manual" type="tel" inputmode="numeric" class="hidden-field" placeholder="Escribe el código de tu país (ej.: 351)" style="margin-top:8px">
+    <p id="tel-erro" class="email-erro"></p>
+    <p class="hint">Déjalo en blanco si prefieres recibir todo solo por correo 💛</p>
+
+
+
+      <button type="button" id="contacto-crear" class="submit" style="margin-top:6px">Crear mi demo gratis 🎵</button>
+    </div>
+
+    <p class="help">Tu demo y el enlace de la canción llegan aquí. Revisa también el spam. 😉</p>
+
+    <button class="submit" type="submit">Generar mi demo gratis 🎵</button>
+    <p id="form-status" role="status"></p>
+  </form>
+  <div class="trust-strip">
+    <span>🔒 Sitio 100% seguro</span>
+    <span>⚡ Lista en minutos</span>
+    <span>💚 +500 canciones creadas</span>
+  </div>
+</section>
+<section class="wrap">
+  <p class="eyebrow">Preguntas frecuentes</p>
+  <h2>Preguntas que siempre llegan</h2>
+  <div style="margin-top:18px">
+    <details><summary>🛡️ ¿Y si no me gusta la canción?</summary><p>Tienes <strong>garantía de satisfacción</strong>: si no te encanta, te devolvemos el 100% de tu dinero dentro de 7 días. Sin preguntas.</p></details>
+    <details><summary>¿Pago antes de escuchar?</summary><p>¡No! Recibes una demo gratuita con 2 versiones de la canción — incluyendo el nombre de la persona cantado. Solo pagas si quieres la canción completa.</p></details>
+    <details><summary>¿Cuánto cuesta?</summary><p><span id="faq-p1">US$ 9.90</span> por 1 canción (tú eliges la versión que prefieras) o <span id="faq-p2">US$ 12.90</span> por las 2 versiones. Pago seguro internacional con tarjeta o el método de tu país.</p></details>
+    <details><summary>¿Cuánto tarda?</summary><p>La demo queda lista en pocos minutos después del envío. Tras el pago, la canción completa se libera al instante.</p></details>
+    <details><summary>¿Cómo recibo la canción?</summary><p>Después del pago seguro (con tarjeta o el método de tu país), la descarga se libera al instante — y el enlace también llega a tu correo. ¿No lo encuentras? Revisa el spam.</p></details>
+    <details><summary>Cerré la página / no recibí el correo. ¿Y ahora?</summary><p>Tranquilo, ¡nada se pierde! Revisa tu carpeta de spam. Si no lo encuentras, usa "Recuperar mi canción" al final de la página: escribe el correo del pedido y te reenviamos el enlace al instante.</p></details>
+    <details><summary>¿Puedo publicarla en redes sociales?</summary><p>¡Claro! La canción es tuya. Ponla en la fiesta, súbela a tus stories, haz un video de homenaje — el momento es de ustedes.</p></details>
+  </div>
+</section>
+<section class="wrap" id="recuperar">
+  <p class="eyebrow">¿Ya creaste tu canción?</p>
+  <h2>Recuperar mi canción</h2>
+  <form class="card" id="form-recuperar" novalidate style="margin-top:22px">
+    <label for="email-rec">Correo usado en el pedido</label>
+    <input id="email-rec" name="email" type="email" placeholder="tu@correo.com" required>
+    <p class="help">Reenviamos el enlace de tu canción (demo o completa) a este correo.</p>
+    <button class="submit" type="submit">Reenviar mi enlace 📩</button>
+    <p id="rec-status" role="status" style="margin-top:14px;text-align:center;font-size:.95rem;min-height:1.4em"></p>
+  </form>
+</section>
+<footer class="wrap">
+  Cantoria · Canciones personalizadas hechas con cariño 💛<br>
+  contato@cantoriaexpress.com.br
+  <br><a href="/privacidad.html" style="color:#B7A9D6">Política de Privacidad</a>
+  <div style="margin-top:14px;display:flex;gap:14px;justify-content:center;align-items:center">
+    <a href="https://www.facebook.com/cantoriaexpress/" target="_blank" rel="noopener" aria-label="Facebook"
+       style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:rgba(247,242,234,.08);border:1px solid rgba(247,242,234,.16)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#B7A9D6" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.52 1.5-3.91 3.77-3.91 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.89h2.78l-.44 2.9h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/cantoria.express/" target="_blank" rel="noopener" aria-label="Instagram"
+       style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:rgba(247,242,234,.08);border:1px solid rgba(247,242,234,.16)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#B7A9D6" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.12 1.38C1.36 2.67.94 3.34.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.38 2.12.66.66 1.33 1.08 2.12 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.3 1.46-.72 2.12-1.38.66-.66 1.08-1.33 1.38-2.12.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.3-.79-.72-1.46-1.38-2.12C21.33 1.36 20.66.94 19.86.63 19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0z"/><path d="M12 5.84A6.16 6.16 0 1 0 12 18.16 6.16 6.16 0 0 0 12 5.84zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/><circle cx="18.41" cy="5.59" r="1.44"/></svg>
+    </a>
+  </div>
+</footer>
+
+
+<script>
+const songs=[
+  ["Felicidades, Elena 🎂","Balada romántica · 2:47"],
+  ["Ana & Pedro, por siempre 💍","Balada romántica · 3:02"],
+  ["Graduación de Lucas 🎓","Pop latino · 2:33"],
+  ["Para ti, mamá 🌹","Balada emotiva · 2:51"],
+  ["Nuestro baby shower 👶","Cumbia festiva · 2:24"]
+];
+let si=0;
+const st=document.getElementById("song-title"), ss=document.getElementById("song-style");
+if (st && ss) setInterval(()=>{
+  si=(si+1)%songs.length;
+  st.style.opacity=0;ss.style.opacity=0;
+  setTimeout(()=>{st.textContent=songs[si][0];ss.textContent=songs[si][1];st.style.opacity=1;ss.style.opacity=1;},400);
+},4200);
+
+let exAudio=null, exAtual=null;
+document.querySelectorAll(".ex-play").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const src=btn.getAttribute("data-src");
+    if(!src){ btn.textContent="🔜"; setTimeout(()=>btn.textContent="▶",1200); return; }
+    if(exAtual===btn && exAudio && !exAudio.paused){ exAudio.pause(); btn.textContent="▶"; return; }
+    if(exAudio){ exAudio.pause(); if(exAtual) exAtual.textContent="▶"; }
+    exAudio=new Audio(src); exAtual=btn; btn.textContent="❚❚";
+    const fill=btn.closest(".ex-card").querySelector(".ex-bar i");
+    exAudio.addEventListener("timeupdate",()=>{ if(exAudio.duration) fill.style.width=(exAudio.currentTime/exAudio.duration*100)+"%"; });
+    exAudio.addEventListener("ended",()=>{ btn.textContent="▶"; fill.style.width="0%"; });
+    exAudio.play();
+  });
+});
+
+
+function ligarOutro(selectId, inputId, gatilho){
+  const sel=document.getElementById(selectId), inp=document.getElementById(inputId);
+  sel.addEventListener("change",()=>{
+    const mostrar = sel.value===gatilho;
+    inp.classList.toggle("show",mostrar);
+    inp.required=mostrar;
+    if(!mostrar) inp.value="";
+  });
+}
+ligarOutro("ocasiao","ocasiao-outro","Outra");
+ligarOutro("estilo","estilo-outro","Outro");
+
+/* Detector de erros de digitação em e-mail + confirmação */
+const emailInput=document.getElementById("email");
+const email2Input=document.getElementById("email2");
+const emailDica=document.getElementById("email-dica");
+const email2Erro=document.getElementById("email2-erro");
+
+/* ===== Instrumentação do funil: descobrir onde o visitante desiste =====
+   Cada evento dispara UMA vez por sessão. No Gerenciador de Eventos do
+   Facebook eles aparecem como eventos personalizados. */
+(function(){
+  var jaDisparou = {};
+  function evento(nome){
+    if (jaDisparou[nome]) return;
+    jaDisparou[nome] = true;
+    try { if (typeof fbq === "function") fbq('trackCustom', nome); } catch(e){}
+  }
+
+  var form = document.getElementById("form-musica");
+  if (!form) return;
+
+  /* 1. O visitante chegou a VER o formulário (rolou até ele)? */
+  if ("IntersectionObserver" in window) {
+    var obs = new IntersectionObserver(function(entradas){
+      entradas.forEach(function(e){
+        if (e.isIntersecting) { evento("F1_ViuFormulario"); obs.disconnect(); }
+      });
+    }, { threshold: 0.25 });
+    obs.observe(form);
+  } else {
+    evento("F1_ViuFormulario");
+  }
+
+  /* 2. Começou a preencher (primeira interação com qualquer campo) */
+  form.addEventListener("focusin", function(){ evento("F2_ComecouFormulario"); });
+
+  /* 3. Chegou no campo da história (o de maior esforço) */
+  var hist = document.getElementById("historia");
+  if (hist) {
+    hist.addEventListener("focus", function(){ evento("F3_ChegouHistoria"); });
+    /* 4. Escreveu a história de verdade (mais de 25 caracteres) */
+    hist.addEventListener("blur", function(){
+      if ((hist.value || "").trim().length > 25) evento("F4_EscreveuHistoria");
+    });
+  }
+
+  /* 5. Chegou no e-mail (última barreira antes de enviar) */
+  var mail = document.getElementById("email");
+  if (mail) mail.addEventListener("focus", function(){ evento("F5_ChegouEmail"); });
+})();
+
+/* DDI: campo manual quando escolhe "Otro país" */
+(function(){
+  var sel = document.getElementById("ddi");
+  var manual = document.getElementById("ddi-manual");
+  if (!sel || !manual) return;
+  sel.addEventListener("change", function(){
+    if (sel.value === "__otro") {
+      manual.classList.remove("hidden-field");
+      manual.focus();
+    } else {
+      manual.classList.add("hidden-field");
+    }
+  });
+})();
+
+
+/* barra de progresso do formulário: incentiva a completar */
+(function(){
+  var form = document.getElementById("form-musica");
+  var bar = document.getElementById("form-progresso-bar");
+  if (!form || !bar) return;
+  function atualizar(){
+    var campos = form.querySelectorAll("input[required], select[required], textarea[required]");
+    var total = campos.length, ok = 0;
+    campos.forEach(function(c){ if (c.value && c.value.trim() !== "") ok++; });
+    var pct = total ? Math.round(ok/total*100) : 0;
+    bar.style.width = pct + "%";
+  }
+  form.addEventListener("input", atualizar);
+  form.addEventListener("change", atualizar);
+})();
+
+/* ==== resumo ao vivo: ajuda a perceber se trocou os nomes ==== */
+(function(){
+  var elCli = document.getElementById("nome_cliente");
+  var elHom = document.getElementById("nome");
+  var elRel = document.getElementById("relacao");
+  var elRes = document.getElementById("resumo-pedido");
+  var elAvi = document.getElementById("nome-aviso");
+  if (!elCli || !elHom || !elRel || !elRes) return;
+  function primeiroNome(v){
+    return String(v||"").trim().toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,"").split(/\s+/)[0] || "";
+  }
+  window.__nomesIguais = function(){
+    var a = primeiroNome(elCli.value), b = primeiroNome(elHom.value);
+    return a.length > 1 && a === b;
+  };
+  function atualizar(){
+    var cli = elCli.value.trim(), hom = elHom.value.trim(), rel = elRel.value.trim();
+    if (hom) {
+      elRes.innerHTML = "🎵 Esta canción será para <strong>" + hom + "</strong>"
+        + (rel ? " (" + rel + ")" : "")
+        + (cli ? ", de parte de <strong>" + cli + "</strong>" : "") + ".";
+      elRes.style.display = "block";
+    } else {
+      elRes.style.display = "none";
+    }
+    if (elAvi) elAvi.textContent = window.__nomesIguais()
+      ? "¿Es correcto? Aquí va el nombre de quien RECIBE la canción, no el tuyo."
+      : "";
+  }
+  [elCli, elHom, elRel].forEach(function(x){ x.addEventListener("input", atualizar); });
+})();
+const errosComuns={"gmail.con":"gmail.com","gmail.co":"gmail.com","gmial.com":"gmail.com","gmai.com":"gmail.com","gmail.cm":"gmail.com","gmailcom":"gmail.com","hotmail.con":"hotmail.com","hotmial.com":"hotmail.com","hotmai.com":"hotmail.com","hotmail.co":"hotmail.com","hotmaill.com":"hotmail.com","outlook.con":"outlook.com","outlok.com":"outlook.com","yahoo.con":"yahoo.com","yaho.com":"yahoo.com","icloud.con":"icloud.com","iclod.com":"icloud.com"};
+let sugestaoEmail=null;
+function verificarEmail(){
+  const val=emailInput.value.trim().toLowerCase();
+  emailDica.className="email-dica";emailDica.textContent="";sugestaoEmail=null;
+  if(!val.includes("@"))return;
+  const dominio=val.split("@")[1]||"";
+  if(errosComuns[dominio]) sugestaoEmail=val.split("@")[0]+"@"+errosComuns[dominio];
+  if(sugestaoEmail){
+    emailDica.className="email-dica sugerir";
+    emailDica.innerHTML='Quisiste decir <u>'+sugestaoEmail+'</u>? (toca para corregir)';
+  }
+}
+emailInput.addEventListener("blur",verificarEmail);
+emailInput.addEventListener("input",()=>{if(emailDica.classList.contains("sugerir"))verificarEmail();});
+emailDica.addEventListener("click",()=>{
+  if(sugestaoEmail){emailInput.value=sugestaoEmail;emailDica.textContent="";emailDica.className="email-dica";verificarConfirmacao();}
+});
+/* o type=email do navegador aceita coisas que o servidor de e-mail recusa,
+   como pontos seguidos (fernando..garcia@) — RFC 5321 */
+function emailValido(v){
+  v = String(v||"").trim();
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) return false;
+  const local = v.split("@")[0], dominio = v.split("@")[1] || "";
+  if (local.indexOf("..") > -1 || dominio.indexOf("..") > -1) return false;
+  if (local.startsWith(".") || local.endsWith(".")) return false;
+  if (dominio.startsWith(".") || dominio.endsWith(".") || dominio.startsWith("-")) return false;
+  return true;
+}
+function verificarConfirmacao(){
+  email2Erro.textContent="";
+  if(emailInput.value.trim() && !emailValido(emailInput.value)){
+    email2Erro.textContent="Revisa tu correo: parece tener un error de escritura.";return false;
+  }
+  if(email2Input.value && emailInput.value.trim().toLowerCase()!==email2Input.value.trim().toLowerCase()){
+    email2Erro.textContent="Los correos no coinciden.";return false;
+  }
+  return true;
+}
+email2Input.addEventListener("blur",verificarConfirmacao);
+email2Input.addEventListener("input",verificarConfirmacao);
+
+function emailSuspeito(email){
+  const e = (email||"").trim().toLowerCase();
+  const [local, dominio] = e.split("@");
+  if(!local || !dominio) return true;
+  // dominios de teste/descartáveis óbvios
+  const dominiosFalsos = ["aaaa.com","aaa.com","teste.com","test.com","a.com","abc.com","asdf.com","1234.com","exemplo.com","example.com","email.com","xxx.com","fake.com"];
+  if(dominiosFalsos.includes(dominio)) return true;
+  // domínio ou local com 4+ letras iguais repetidas (aaaa, xxxx)
+  if(/(.)\1{3,}/.test(local) || /(.)\1{3,}/.test(dominio)) return true;
+  // domínio sem ponto válido ou TLD muito curto
+  if(!/\.[a-z]{2,}$/.test(dominio)) return true;
+  // provedor de e-mail temporário conhecido
+  const temporarios = ["tempmail","10minutemail","guerrillamail","mailinator","throwaway","yopmail","trashmail"];
+  if(temporarios.some(t=>dominio.includes(t))) return true;
+  return false;
+}
+
+const WEBHOOK_URL="https://n8n.ciganaesmeralda.com/webhook/cantoria-previa"; // trocar pela URL real
+const form=document.getElementById("form-musica");
+const status=document.getElementById("form-status");
+/* ===== Contato em 2 tempos =====
+   O e-mail e o WhatsApp saem do formulario principal e so aparecem
+   depois que a pessoa clica em "Generar mi demo gratis". */
+var contatoConfirmado = false;
+(function(){
+  var capa   = document.getElementById("contacto-capa");
+  var modal  = document.getElementById("contacto-modal");
+  var fechar = document.getElementById("contacto-fechar");
+  var criar  = document.getElementById("contacto-crear");
+  if (!capa || !modal || !criar) return;
+
+  window.__abrirContato = function(){
+    capa.style.display = "block";
+    modal.style.display = "block";
+    document.body.style.overflow = "hidden";
+    var em = document.getElementById("email");
+    if (em) setTimeout(function(){ em.focus(); }, 100);
+    try { if (typeof fbq === "function") fbq('trackCustom','F6_AbrioContacto'); } catch(err){}
+  };
+  function fecharContato(){
+    capa.style.display = "none";
+    modal.style.display = "none";
+    document.body.style.overflow = "";
+  }
+  if (fechar) fechar.addEventListener("click", fecharContato);
+  capa.addEventListener("click", fecharContato);
+
+  /* o botao do modal e quem realmente dispara o envio */
+  criar.addEventListener("click", function(){
+    contatoConfirmado = true;
+    if (typeof form.requestSubmit === "function") form.requestSubmit();
+    else form.dispatchEvent(new Event("submit", {cancelable:true}));
+  });
+})();
+
+form.addEventListener("submit",async e=>{
+  e.preventDefault();
+  /* 1o clique: valida so os campos criativos e abre o modal de contato */
+  if (!contatoConfirmado) {
+    var criativos = form.querySelectorAll("select[required], textarea[required], input[required]");
+    var faltou = null;
+    criativos.forEach(function(c){
+      if (faltou) return;
+      var noModal = c.closest && c.closest("#contacto-modal");
+      if (noModal) return;                       /* e-mail fica pra segunda etapa */
+      if (!c.value || c.value.trim() === "") faltou = c;
+    });
+    if (!faltou && !form.querySelector('input[name="voz"]:checked')) {
+      form.reportValidity(); return;
+    }
+    if (faltou) { faltou.focus(); form.reportValidity(); return; }
+    if (typeof window.__abrirContato === "function") { window.__abrirContato(); return; }
+  }
+  if(!form.checkValidity()){form.reportValidity();return;}
+  if(!verificarConfirmacao()){ email2Input.focus(); return; }
+  if(emailSuspeito(emailInput.value)){
+    status.className="erro";
+    status.textContent="Ese correo parece inválido. Usa tu correo real para recibir la canción. 📧";
+    emailInput.focus();
+    return;
+  }
+  if (typeof window.__nomesIguais === "function" && window.__nomesIguais()) {
+    var homNome = (document.getElementById("nome") || {value:""}).value.trim();
+    if (!confirm("Escribiste \"" + homNome + "\" como quien recibe la canción, y es el mismo nombre que pusiste como tuyo.\n\n¿La canción es realmente para ti? Si es para otra persona, toca Cancelar y corrige el nombre.")) {
+      var elH = document.getElementById("nome"); if (elH) elH.focus();
+      return;
+    }
+  }
+  const telEl = document.getElementById("telefono");
+  const telErro = document.getElementById("tel-erro");
+  const telNum = (telEl ? telEl.value : "").replace(/\D/g,"");
+  if (telNum.length > 0 && telNum.length < 8) {
+    if (telErro) telErro.textContent = "Escribe tu WhatsApp con el código de área, o déjalo en blanco.";
+    if (telEl) telEl.focus();
+    return;
+  }
+  if (telErro) telErro.textContent = "";
+  const btn=form.querySelector(".submit");
+  btn.disabled=true;btn.textContent="Creando tu canción… 🎶";
+  status.className="";status.textContent="";
+  const dados=Object.fromEntries(new FormData(form).entries());
+  if(dados.ocasiao==="Outra" && dados.ocasiao_outro) dados.ocasiao=dados.ocasiao_outro;
+  if(dados.estilo==="Outro" && dados.estilo_outro) dados.estilo=dados.estilo_outro;
+  const nmChk = document.getElementById("nome_na_musica");
+  dados.nome_na_musica = (nmChk && nmChk.checked) ? "sim" : "nao";
+  dados.idioma = "es";
+  if (telNum.length >= 8) {
+    var ddiRaw = (document.getElementById("ddi") || {value:"52"}).value;
+    var ddiSel;
+    if (ddiRaw === "__otro") {
+      ddiSel = ((document.getElementById("ddi-manual") || {value:""}).value || "").replace(/\D/g,"");
+    } else if (ddiRaw === "1ca") {
+      ddiSel = "1";           // Canadá usa +1
+    } else if (ddiRaw === "1787") {
+      ddiSel = "1";           // Porto Rico usa +1 (area code 787 vai no número)
+    } else {
+      ddiSel = ddiRaw;
+    }
+    if (ddiSel && ddiSel.length >= 1) {
+      dados.telefone = (telNum.indexOf(ddiSel) === 0) ? telNum : (ddiSel + telNum);
+      dados.whatsapp_optin = true;
+    }
+  }
+  delete dados.telefono;
+  delete dados.email2;
+  delete dados.ocasiao_outro; delete dados.estilo_outro;
+  const getCookie=n=>document.cookie.match(new RegExp('(?:^|; )'+n+'=([^;]*)'))?.[1]||"";
+  dados.fbp=getCookie("_fbp"); dados.fbc=getCookie("_fbc");
+  const fbclid=new URLSearchParams(location.search).get("fbclid");
+  if(!dados.fbc && fbclid) dados.fbc=`fb.1.${Date.now()}.${fbclid}`;
+  dados.event_source_url=location.href;
+  dados.user_agent=navigator.userAgent;
+  try{
+    const r=await fetch(WEBHOOK_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(dados)});
+    if(r.status===429){
+      const j=await r.json().catch(()=>({}));
+      status.className="erro";
+      status.textContent=j.mensagem || "Ya creaste varias demos hace poco. Espera un momento. 😊";
+      btn.disabled=false;btn.textContent="Generar mi demo gratis 🎵";
+      contatoConfirmado=false;
+      return;
+    }
+    if(!r.ok) throw new Error();
+    const resp=await r.json().catch(()=>({}));
+    if(resp.previa_url){
+      if(typeof fbq==="function"){ try{ fbq('track','Lead'); }catch(e){} }
+      /* redirect imediato e robusto no celular */
+      status.className="ok";
+      status.textContent="¡Listo! Redirigiendo… 🎵";
+      window.location.assign(resp.previa_url + (resp.previa_url.indexOf('?')>-1 ? '&' : '?') + 'lang=es');
+    }else{
+      status.className="ok";
+      status.textContent="¡Listo! Tu demo se está creando — en instantes llega a tu correo. 🎵";
+      form.reset();
+      btn.disabled=false;btn.textContent="Generar mi demo gratis 🎵";
+    }
+  }catch(err){
+    status.className="erro";
+    status.textContent="Ups, no pudimos enviar. Revisa tu conexión e inténtalo de nuevo.";
+    btn.disabled=false;btn.textContent="Generar mi demo gratis 🎵";
+  }
+});
+
+const REENVIO_URL="https://n8n.ciganaesmeralda.com/webhook/cantoria-reenvio"; // trocar pela URL real
+const formRec=document.getElementById("form-recuperar");
+const recStatus=document.getElementById("rec-status");
+formRec.addEventListener("submit",async e=>{
+  e.preventDefault();
+  if(!formRec.checkValidity()){formRec.reportValidity();return;}
+  const b=formRec.querySelector(".submit");
+  b.disabled=true;b.textContent="Enviando…";
+  try{
+    await fetch(REENVIO_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:document.getElementById("email-rec").value})});
+    recStatus.style.color="var(--gold)";
+    recStatus.textContent="¡Listo! Si encontramos tu pedido, el enlace llega a tu correo en instantes — revisa también el spam. 📬";
+    formRec.reset();
+  }catch(err){
+    recStatus.style.color="var(--rose)";
+    recStatus.textContent="No pudimos enviar ahora. Inténtalo de nuevo en unos instantes.";
+  }finally{
+    b.disabled=false;b.textContent="Reenviar mi enlace 📩";
+  }
+});
+</script>
+<!-- Vercel Analytics -->
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<!-- Vercel Speed Insights -->
+<script>window.si=window.si||function(){(window.siq=window.siq||[]).push(arguments);};</script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+
+<script>
+/* Preço na moeda local (aproximado) — detecta o país e converte ao vivo */
+(function(){
+  var MOEDAS = { MX:["MXN","$"], CO:["COP","$"], AR:["ARS","$"], CL:["CLP","$"], PE:["PEN","S/"], EC:["USD","US$"], UY:["UYU","$"], PY:["PYG","₲"], BO:["BOB","Bs"], GT:["GTQ","Q"], DO:["DOP","RD$"], CR:["CRC","₡"], BR:["BRL","R$"], ES:["EUR","€"], PT:["EUR","€"], FR:["EUR","€"], IT:["EUR","€"], DE:["EUR","€"], NL:["EUR","€"], BE:["EUR","€"], IE:["EUR","€"], AT:["EUR","€"], FI:["EUR","€"], GR:["EUR","€"], SK:["EUR","€"], SI:["EUR","€"], LU:["EUR","€"], HR:["EUR","€"], EE:["EUR","€"], LV:["EUR","€"], LT:["EUR","€"], CY:["EUR","€"], MT:["EUR","€"], GB:["GBP","£"], CH:["CHF","CHF "], SE:["SEK","kr "], NO:["NOK","kr "], DK:["DKK","kr "], PL:["PLN","zł "] };
+  var P1 = 9.90, P2 = 12.90;
+  /* imposto aproximado que a Hotmart embute no valor local (IVA/ISV por país) */
+  /* fator de ajuste calibrado pelos valores REAIS da Hotmart (não é o IVA cheio: a Hotmart usa câmbio próprio que já absorve parte do imposto) */
+  var AJUSTE_HOTMART = { CL:0.10, CO:0.10, PE:0.08, UY:0.06, CR:0.05, MX:0.05, AR:0.10, GT:0.05, DO:0.08, BO:0.05, PY:0.05 };
+  var PAIS_ATUAL = "";
+  function comImposto(usd){ return usd * (1 + (AJUSTE_HOTMART[PAIS_ATUAL] || 0)); }
+  function arred(v, cur){
+    if (["COP","CLP","ARS","PYG","CRC"].indexOf(cur) > -1) return Math.round(v/100)*100;
+    /* moedas fortes: mantém os centavos (€ 9,11 em vez de € 9) */
+    if (["EUR","GBP","CHF","SEK","NOK","DKK","PLN"].indexOf(cur) > -1) return Math.round(v*100)/100;
+    return Math.round(v);
+  }
+  var PRECO_FIXO = {
+    CL: { uma: 11700, duas: 14900, sim: "$", cur: "CLP", iva: true },
+    AR: { uma: 17200, duas: 22400, sim: "$", cur: "ARS", iva: true },
+    CO: { uma: 33900, duas: 44200, sim: "$", cur: "COP", iva: true }
+  };
+  /* zona do euro: mesmo preco em todos */
+  ["ES","PT","FR","IT","DE","NL","BE","IE","AT","FI","GR","SK","SI","LU","HR","EE","LV","LT","CY","MT"].forEach(function(p){
+    PRECO_FIXO[p] = { uma: 7.25, duas: 9.90, sim: "€", cur: "EUR", iva: true };
+  });
+  function mostrar(cur, sim, taxa){
+    var fx = PRECO_FIXO[PAIS_ATUAL];
+    var p1loc, p2loc, selo = "";
+    if (fx) {
+      selo = fx.iva ? " IVA incluido" : "";
+      p1loc = fx.sim + " " + fx.uma.toLocaleString("es") + " " + fx.cur;
+      p2loc = fx.sim + " " + fx.duas.toLocaleString("es") + " " + fx.cur;
+    } else {
+      if (!taxa) return;
+      p1loc = sim + " " + arred(comImposto(P1)*taxa, cur).toLocaleString("es") + " " + cur;
+      p2loc = sim + " " + arred(comImposto(P2)*taxa, cur).toLocaleString("es") + " " + cur;
+    }
+    var f1 = document.getElementById("faq-p1"); if (f1) f1.textContent = p1loc + selo;
+    var f2 = document.getElementById("faq-p2"); if (f2) f2.textContent = p2loc + selo;
+  }
+  var ESTILOS_PAIS = {
+    ES: ["Balada romántica","Rumba flamenca","Pop latino","Flamenco","Reggaeton"],
+    MX: ["Ranchera / Mariachi","Banda / Norteño","Cumbia","Balada romántica","Reggaeton"],
+    CO: ["Vallenato","Cumbia","Salsa","Balada romántica","Reggaeton"],
+    AR: ["Cumbia","Rock en español","Balada romántica","Tango","Reggaeton"],
+    CL: ["Cumbia","Balada romántica","Reggaeton","Rock en español","Pop latino"],
+    PE: ["Cumbia","Salsa","Balada romántica","Reggaeton","Pop latino"],
+    UY: ["Cumbia","Tango","Rock en español","Balada romántica","Pop latino"],
+    CR: ["Salsa","Bachata","Merengue","Cumbia","Reggaeton"],
+    EC: ["Cumbia","Balada romántica","Salsa","Reggaeton","Pop latino"],
+    DO: ["Bachata","Merengue","Salsa","Reggaeton","Balada romántica"],
+    PY: ["Cumbia","Balada romántica","Rock en español","Reggaeton","Pop latino"],
+    BO: ["Cumbia","Balada romántica","Salsa","Reggaeton","Pop latino"],
+    GT: ["Cumbia","Balada romántica","Salsa","Reggaeton","Bachata"],
+    PR: ["Reggaeton","Salsa","Bachata","Balada romántica","Merengue"]
+  };
+  function ordenarEstilos(iso){
+    var sel = document.getElementById("estilo");
+    var favs = ESTILOS_PAIS[iso];
+    if (!sel || !favs || sel.dataset.ordenado === "1") return;
+    var todas = Array.prototype.slice.call(sel.querySelectorAll("option"));
+    var placeholder = todas[0], outro = todas[todas.length-1];
+    var meio = todas.slice(1, todas.length-1);
+    var pop = [], resto = [];
+    meio.forEach(function(o){ (favs.indexOf(o.textContent.trim()) > -1 ? pop : resto).push(o); });
+    if (!pop.length) return;
+    pop.sort(function(a,b){ return favs.indexOf(a.textContent.trim()) - favs.indexOf(b.textContent.trim()); });
+    var g1 = document.createElement("optgroup"); g1.label = "🔥 Más elegidos en tu país";
+    var g2 = document.createElement("optgroup"); g2.label = "Otros estilos";
+    pop.forEach(function(o){ g1.appendChild(o); });
+    resto.forEach(function(o){ g2.appendChild(o); });
+    sel.innerHTML = "";
+    sel.appendChild(placeholder); sel.appendChild(g1); sel.appendChild(g2); sel.appendChild(outro);
+    sel.dataset.ordenado = "1";
+  }
+  function comPais(iso){
+    PAIS_ATUAL = (iso||"").toUpperCase();
+    ordenarEstilos(PAIS_ATUAL);
+    var DDI_MAP = { MX:"52", CO:"57", AR:"54", CL:"56", PE:"51", EC:"593", UY:"598", PY:"595", BO:"591", GT:"502", SV:"503", HN:"504", NI:"505", CR:"506", PA:"507", VE:"58", DO:"1", CU:"53", PR:"1787", US:"1", CA:"1ca", ES:"34", PT:"351", FR:"33", IT:"39", DE:"49", GB:"44", CH:"41", NL:"31", BE:"32", SE:"46", NO:"47", IE:"353", BR:"55", AU:"61", NZ:"64", JP:"81", CN:"86", IN:"91", PH:"63", ZA:"27", MA:"212", IL:"972", AE:"971" };
+    var selDdi = document.getElementById("ddi");
+    if (selDdi && DDI_MAP[PAIS_ATUAL]) selDdi.value = DDI_MAP[PAIS_ATUAL];
+    if (PRECO_FIXO[PAIS_ATUAL]) { mostrar(null, null, null); return; }
+    var m = MOEDAS[(iso||"").toUpperCase()];
+    if (!m || m[0] === "USD") return;
+    fetch("https://open.er-api.com/v6/latest/USD").then(function(r){return r.json();}).then(function(d){
+      var taxa = d && d.rates && d.rates[m[0]];
+      if (taxa) mostrar(m[0], m[1], taxa);
+    }).catch(function(){});
+  }
+    /* deteccao de pais: override manual (?pais=MX) + varias fontes + timeout */
+    (function(){
+      var forcado = "";
+      try { forcado = (new URLSearchParams(location.search).get("pais") || "").toUpperCase(); } catch(e){}
+      if (forcado) { comPais(forcado); return; }
+      var FONTES = [
+        ["https://ipapi.co/json/", function(d){ return d && d.country_code; }],
+        ["https://ipwho.is/", function(d){ return d && d.country_code; }],
+        ["https://get.geojs.io/v1/ip/country.json", function(d){ return d && d.country; }]
+      ];
+      function buscar(url){
+        var opt = {};
+        try {
+          var ac = new AbortController();
+          setTimeout(function(){ ac.abort(); }, 3500);
+          opt.signal = ac.signal;
+        } catch(e){}
+        return fetch(url, opt).then(function(r){ return r.json(); });
+      }
+      function tentar(i){
+        if (i >= FONTES.length) {
+          var lang = (navigator.language || "").split("-")[1];
+          if (lang) comPais(lang);
+          return;
+        }
+        buscar(FONTES[i][0]).then(function(d){
+          var iso = FONTES[i][1](d);
+          if (iso) comPais(iso); else tentar(i + 1);
+        }).catch(function(){ tentar(i + 1); });
+      }
+      tentar(0);
+    })();
+})();
+</script>
+<script>
+/* ===== Prova social: vendas REAIS das últimas 48h =====
+   Os dados vêm do endpoint do n8n, que devolve só o primeiro nome
+   do cliente e há quanto tempo comprou. Nada é inventado: se não
+   houver vendas recentes, nenhuma notificação aparece. */
+(function(){
+  var ES = true;
+  try { ES = (new URLSearchParams(location.search).get("lang") !== "pt"); } catch(e){}
+
+  var css = document.createElement("style");
+  css.textContent = ""
+    + ".sp-toast{position:fixed;left:14px;bottom:14px;z-index:9000;max-width:290px;"
+    + "background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:14px;"
+    + "box-shadow:0 8px 28px rgba(60,30,80,.18);padding:11px 13px 11px 12px;"
+    + "display:flex;gap:10px;align-items:center;font-size:.83rem;line-height:1.35;"
+    + "color:#2d263c;opacity:0;transform:translateY(14px);"
+    + "transition:opacity .35s ease,transform .35s ease;pointer-events:none}"
+    + ".sp-toast.on{opacity:1;transform:translateY(0);pointer-events:auto}"
+    + ".sp-toast .sp-ico{flex:0 0 34px;height:34px;border-radius:50%;"
+    + "background:linear-gradient(135deg,#FFB35C,#FF7BAC);display:flex;"
+    + "align-items:center;justify-content:center;font-size:1rem}"
+    + ".sp-toast .sp-quando{display:block;color:#9b8db5;font-size:.75rem;margin-top:1px}"
+    + ".sp-toast .sp-x{position:absolute;top:4px;right:8px;color:#c3bad2;"
+    + "font-size:1rem;cursor:pointer;line-height:1}"
+    + "@media(max-width:480px){.sp-toast{left:10px;right:10px;max-width:none;bottom:10px}}"
+    + "@media (prefers-reduced-motion:reduce){.sp-toast{transition:none}}";
+  document.head.appendChild(css);
+
+  var caixa = document.createElement("div");
+  caixa.className = "sp-toast";
+  caixa.style.position = "fixed";
+  caixa.innerHTML = '<span class="sp-x">&times;</span>'
+    + '<div class="sp-ico">🎵</div><div class="sp-txt"></div>';
+  var fechado = false;
+  caixa.querySelector(".sp-x").addEventListener("click", function(){
+    fechado = true; caixa.classList.remove("on");
+  });
+
+  function tempo(min){
+    if (min < 60) return (ES ? "hace " : "há ") + min + " min";
+    var h = Math.round(min/60);
+    return (ES ? "hace " : "há ") + h + (h === 1 ? (ES ? " hora" : " hora") : (ES ? " horas" : " horas"));
+  }
+
+  function frase(v){
+    var o = v.duas ? (ES ? "2 canciones" : "2 músicas") : (ES ? "su canción" : "sua música");
+    return "<strong>" + v.nome + "</strong> " + (ES ? "acaba de llevarse " : "acabou de levar ") + o;
+  }
+
+  fetch("https://n8n.ciganaesmeralda.com/webhook/cantoria-vendas-recentes")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var vendas = (d && d.vendas) || [];
+      if (!vendas.length) return;           /* sem vendas recentes -> nada aparece */
+      document.body.appendChild(caixa);
+      var i = 0;
+      function mostrar(){
+        if (fechado) return;
+        var v = vendas[i % vendas.length]; i++;
+        caixa.querySelector(".sp-txt").innerHTML =
+          frase(v) + '<span class="sp-quando">' + tempo(v.minutos) + '</span>';
+        caixa.classList.add("on");
+        setTimeout(function(){ caixa.classList.remove("on"); }, 6000);
+        setTimeout(mostrar, 6000 + 16000 + Math.random()*14000);
+      }
+      setTimeout(mostrar, 9000);            /* deixa a página respirar antes */
+    })
+    .catch(function(){});
+})();
+</script>
+
+<!-- Banner de consentimento (so aparece na UE) -->
+<div id="ck-banner" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:9800;background:var(--card,#2A1C47);border-top:1px solid rgba(255,255,255,.14);padding:16px;box-shadow:0 -8px 30px rgba(0,0,0,.4)">
+  <div style="max-width:680px;margin:0 auto">
+    <p style="font-size:.86rem;line-height:1.45;color:var(--ink,#F7F2EA);margin:0 0 12px">
+      🍪 Usamos cookies propias y de terceros para medir y mejorar nuestra publicidad.
+      Puedes aceptarlas o rechazarlas — si las rechazas, el sitio funciona igual.
+      <a href="/privacidad.html" style="color:var(--gold,#FFB35C);text-decoration:underline">Más información</a>
+    </p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button type="button" id="ck-aceptar" style="flex:1;min-width:130px;border:0;border-radius:10px;padding:11px 16px;font-weight:700;font-size:.9rem;cursor:pointer;background:linear-gradient(90deg,#FFB35C,#FF7BAC);color:#241338">Aceptar</button>
+      <button type="button" id="ck-rechazar" style="flex:1;min-width:130px;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:11px 16px;font-weight:600;font-size:.9rem;cursor:pointer;background:transparent;color:var(--ink,#F7F2EA)">Rechazar</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var b = document.getElementById("ck-banner");
+  if (!b) return;
+  if (!window.__zonaUE || window.__consentimento !== null) return;  /* fora da UE ou ja decidiu */
+  b.style.display = "block";
+  function decidir(v){
+    try { localStorage.setItem("consent_v1", v); } catch(e){}
+    b.style.display = "none";
+    if (v === "si") {
+      if (window.__injetarPixel) window.__injetarPixel();
+      if (window.__injetarGtag) window.__injetarGtag();
+    }
+  }
+  document.getElementById("ck-aceptar").addEventListener("click", function(){ decidir("si"); });
+  document.getElementById("ck-rechazar").addEventListener("click", function(){ decidir("no"); });
+})();
+</script>
+</body>
+
+</html>
