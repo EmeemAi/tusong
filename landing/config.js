@@ -16,8 +16,8 @@ window.TUSONG_CONFIG = {
   mercadoPagoUrl: "https://mpago.la/1qwW21M",
   aliasMercadoPago: "tusong.oficial",
 
-  // Webhook gratuito para recibir las fichas en tu Gmail (FormSubmit)
-  orderWebhookUrl: "https://formsubmit.co/ajax/dario.delreal@gmail.com",
+  // Google Apps Script Web App (guarda fila en Google Sheets y avisa a dario.delreal@gmail.com)
+  orderWebhookUrl: "https://script.google.com/macros/s/AKfycbw9GgPA6MynRjRERiMAxPrxx6V4luwTO1YImXVFHSz1zGzkoRPXhssT76l62Toyflg8cw/exec",
 
   // WhatsApp Business oficial para consultas o entrega
   whatsappNumber: "5491178130971",

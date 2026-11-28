@@ -282,35 +282,32 @@
       return Promise.resolve();
     }
 
-    const formPayload = {
-      _subject: `🎵 Nuevo Pedido TuSong (${priceText}) — Para ${payload.recipient || "Cliente"}`,
-      _template: "table",
-      _captcha: "false",
-      Precio: `${payload.price} ${payload.currency}`,
-      Ocasion: payload.occasion,
-      Para_Quien: payload.recipient,
-      De_Parte_De: payload.sender || "(No especificado)",
-      Estilo: `${payload.style} (${payload.voice})`,
-      Historia_y_Recuerdos: payload.memories,
-      Email_Cliente: payload.email,
-      WhatsApp_Cliente: payload.whatsapp || "(No indicó)",
-      Fecha: payload.createdAt,
-    };
+    const isGoogleScript = cfg.orderWebhookUrl.includes("script.google.com");
 
-    const req = fetch(cfg.orderWebhookUrl, {
-      method: "POST",
-      keepalive: true,
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify(formPayload),
-    }).catch(() => {});
+    const req = isGoogleScript
+      ? fetch(cfg.orderWebhookUrl, {
+          method: "POST",
+          mode: "no-cors",
+          keepalive: true,
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+          },
+          body: JSON.stringify(payload),
+        }).catch(() => {})
+      : fetch(cfg.orderWebhookUrl, {
+          method: "POST",
+          keepalive: true,
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }).catch(() => {});
 
-    // Esperar hasta 1.2s para asegurar el envío antes de redirigir a Mercado Pago
+    // Esperar hasta 1.5s para asegurar el envío antes de redirigir a Mercado Pago
     return Promise.race([
       req,
-      new Promise((resolve) => setTimeout(resolve, 1200)),
+      new Promise((resolve) => setTimeout(resolve, 1500)),
     ]);
   }
 
