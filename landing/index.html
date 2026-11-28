@@ -1,801 +1,439 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-AR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>TuSong — Creá tu Canción Personalizada (Entrega Digital)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TuSong — Canciones Personalizadas en Argentina · Regalá una Emoción</title>
     <meta
       name="description"
-      content="Convertimos tus recuerdos y anécdotas en una canción única con calidad de estudio. Pedidos automáticos internacionales con entrega a tu email o atención personalizada por WhatsApp."
+      content="Convertimos tus recuerdos, nombres y anécdotas en una canción única con calidad de estudio. Escuchá ejemplos reales y encargá la tuya por Mercado Pago en 2 minutos."
     />
     <link rel="icon" type="image/png" href="assets/emblema.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Fraunces:opsz,wght@9..144,700;9..144,800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <style>
-      :root {
-        --bg: #0d0e12;
-        --card-bg: #16171e;
-        --border: rgba(255, 255, 255, 0.1);
-        --text: #ffffff;
-        --text-muted: #9aa0a6;
-        --primary: #25d366; /* WhatsApp green */
-        --accent: #f26457;
-        --gold: #f4a236;
-        --radius: 18px;
-      }
-
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      body {
-        font-family: "Plus Jakarta Sans", system-ui, sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 0.85rem 0.85rem 1.25rem;
-      }
-
-      /* Top Header */
-      .top-bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        max-width: 480px;
-        margin: 0 auto 0.65rem;
-        width: 100%;
-      }
-
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 0.45rem;
-        text-decoration: none;
-      }
-
-      .brand img {
-        width: 32px;
-        height: 32px;
-      }
-
-      .brand-title {
-        font-family: "Fraunces", serif;
-        font-size: 1.35rem;
-        font-weight: 800;
-        color: #fff;
-      }
-
-      .brand-title span {
-        color: var(--accent);
-      }
-
-      /* Currency / Region Toggle */
-      .currency-toggle {
-        display: flex;
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        padding: 2px;
-        font-size: 0.75rem;
-        font-weight: 700;
-      }
-
-      .currency-toggle button {
-        background: transparent;
-        border: none;
-        color: var(--text-muted);
-        padding: 0.25rem 0.55rem;
-        border-radius: 999px;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-
-      .currency-toggle button.active {
-        background: var(--accent);
-        color: #fff;
-      }
-
-      /* Audio Pill */
-      .audio-pill-wrap {
-        max-width: 480px;
-        margin: 0 auto 0.85rem;
-        width: 100%;
-      }
-
-      .audio-pill {
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        padding: 0.4rem 0.85rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 0.82rem;
-        color: var(--text-muted);
-      }
-
-      .audio-pill button {
-        background: var(--accent);
-        border: none;
-        color: #fff;
-        padding: 0.3rem 0.75rem;
-        border-radius: 999px;
-        font-size: 0.76rem;
-        font-weight: 700;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 0.3rem;
-      }
-
-      /* Main Card */
-      .funnel-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        max-width: 480px;
-        margin: 0 auto;
-        width: 100%;
-        padding: 1.35rem 1.15rem;
-        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-
-      /* Progress Bar */
-      .progress-track {
-        background: rgba(255, 255, 255, 0.08);
-        height: 6px;
-        border-radius: 999px;
-        margin-bottom: 1.15rem;
-        overflow: hidden;
-      }
-
-      .progress-fill {
-        background: linear-gradient(90deg, var(--accent), var(--gold));
-        height: 100%;
-        width: 20%;
-        border-radius: 999px;
-        transition: width 0.3s ease;
-      }
-
-      .step-header {
-        margin-bottom: 1.15rem;
-      }
-
-      .step-tag {
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: var(--gold);
-        font-weight: 800;
-        display: block;
-        margin-bottom: 0.3rem;
-      }
-
-      .step-title {
-        font-family: "Fraunces", serif;
-        font-size: 1.45rem;
-        line-height: 1.25;
-        color: #ffffff;
-      }
-
-      .step-sub {
-        font-size: 0.86rem;
-        color: var(--text-muted);
-        margin-top: 0.3rem;
-      }
-
-      /* Touch Options */
-      .options-stack {
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
-        margin-bottom: 1.25rem;
-      }
-
-      .opt-btn {
-        background: rgba(255, 255, 255, 0.035);
-        border: 1.5px solid var(--border);
-        color: #ffffff;
-        padding: 0.85rem 1rem;
-        border-radius: 14px;
-        font-size: 0.98rem;
-        font-weight: 600;
-        text-align: left;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        width: 100%;
-      }
-
-      .opt-btn:active,
-      .opt-btn.active {
-        background: rgba(242, 100, 87, 0.15);
-        border-color: var(--accent);
-      }
-
-      .opt-emoji {
-        font-size: 1.35rem;
-      }
-
-      /* Fields */
-      .field {
-        margin-bottom: 0.95rem;
-      }
-
-      .field label {
-        display: block;
-        font-size: 0.8rem;
-        font-weight: 700;
-        color: var(--text-muted);
-        margin-bottom: 0.35rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-      }
-
-      .field input,
-      .field textarea {
-        width: 100%;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        color: #fff;
-        padding: 0.85rem 1rem;
-        font-size: 0.98rem;
-        outline: none;
-        transition: border 0.2s;
-      }
-
-      .field input:focus,
-      .field textarea:focus {
-        border-color: var(--accent);
-      }
-
-      .field textarea {
-        resize: none;
-        height: 80px;
-      }
-
-      /* Nav Buttons */
-      .nav-btns {
-        display: flex;
-        gap: 0.65rem;
-        align-items: center;
-        margin-top: 1rem;
-      }
-
-      .btn-back {
-        background: transparent;
-        border: 1px solid var(--border);
-        color: var(--text-muted);
-        padding: 0.85rem 1rem;
-        border-radius: 12px;
-        font-weight: 700;
-        font-size: 0.9rem;
-        cursor: pointer;
-      }
-
-      .btn-next {
-        background: var(--accent);
-        border: none;
-        color: #fff;
-        padding: 0.85rem 1.2rem;
-        border-radius: 12px;
-        font-weight: 700;
-        font-size: 0.98rem;
-        flex-grow: 1;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.4rem;
-        box-shadow: 0 8px 20px rgba(242, 100, 87, 0.35);
-      }
-
-      /* Summary Box */
-      .final-card {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px dashed rgba(244, 162, 54, 0.4);
-        border-radius: 14px;
-        padding: 1.1rem;
-        margin-bottom: 1.15rem;
-      }
-
-      .final-row {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.88rem;
-        margin-bottom: 0.45rem;
-        color: var(--text-muted);
-      }
-
-      .final-row strong {
-        color: #fff;
-      }
-
-      .price-highlight {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        border-top: 1px solid var(--border);
-        padding-top: 0.75rem;
-        margin-top: 0.75rem;
-      }
-
-      .price-num {
-        font-family: "Fraunces", serif;
-        font-size: 1.85rem;
-        font-weight: 800;
-        color: var(--gold);
-      }
-
-      /* Delivery Badge */
-      .delivery-note {
-        font-size: 0.82rem;
-        color: #bae6fd;
-        background: rgba(14, 165, 233, 0.12);
-        border: 1px solid rgba(14, 165, 233, 0.25);
-        padding: 0.65rem 0.85rem;
-        border-radius: 10px;
-        margin-bottom: 1.15rem;
-        line-height: 1.45;
-      }
-
-      /* Automated Checkout Button */
-      .btn-checkout-auto {
-        background: linear-gradient(135deg, #f4a236 0%, #e08b16 100%);
-        color: #fff !important;
-        border: none;
-        padding: 1.05rem;
-        border-radius: 14px;
-        font-size: 1.05rem;
-        font-weight: 800;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        cursor: pointer;
-        text-decoration: none;
-        box-shadow: 0 10px 25px rgba(244, 162, 54, 0.35);
-        margin-bottom: 0.85rem;
-      }
-
-      /* VIP WhatsApp Banner */
-      .vip-whatsapp-banner {
-        background: rgba(37, 211, 102, 0.08);
-        border: 1px solid rgba(37, 211, 102, 0.25);
-        border-radius: 14px;
-        padding: 0.9rem;
-        text-align: center;
-      }
-
-      .vip-whatsapp-banner p {
-        font-size: 0.82rem;
-        color: #86efac;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-      }
-
-      .btn-wa-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        background: var(--primary);
-        color: #fff;
-        padding: 0.55rem 1rem;
-        border-radius: 999px;
-        font-size: 0.88rem;
-        font-weight: 700;
-        text-decoration: none;
-      }
-
-      .direct-skip {
-        text-align: center;
-        margin-top: 0.75rem;
-      }
-
-      .direct-skip a {
-        color: var(--text-muted);
-        font-size: 0.82rem;
-        text-decoration: underline;
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <!-- Top Header -->
-    <header class="top-bar">
-      <a href="#" class="brand">
-        <img src="assets/emblema.png" alt="TuSong" />
-        <span class="brand-title">Tu<span>Song</span></span>
-      </a>
+    <!-- Compact Header -->
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a href="#" class="brand" aria-label="Inicio TuSong">
+          <img src="assets/emblema.png" alt="Emblema TuSong" class="brand-emblem" />
+          <div class="brand-text">
+            <span class="brand-name"><span class="tu">Tu</span><span class="song">Song</span></span>
+            <span class="brand-sub">Canciones Personalizadas · Argentina</span>
+          </div>
+        </a>
 
-      <!-- Region & Currency Selector -->
-      <div class="currency-toggle">
-        <button type="button" id="toggleAR" class="active" onclick="setRegion('AR')">🇦🇷 ARS</button>
-        <button type="button" id="toggleINTL" onclick="setRegion('INTL')">🌎 USD / €</button>
+        <div class="header-right">
+          <a href="#crear-cancion" class="btn btn-primary btn-sm" id="headerCtaBtn">
+            🎵 Crear mi canción · $14.750
+          </a>
+        </div>
       </div>
     </header>
 
-    <!-- Compact Audio Sample -->
-    <div class="audio-pill-wrap">
-      <div class="audio-pill">
-        <span>🎵 Escuchá cómo suena una canción real:</span>
-        <button type="button" id="playAudioBtn">
-          <span id="playIcon">▶</span> <span id="playText">Muestra (30s)</span>
-        </button>
-      </div>
-      <audio id="sampleAudio" src="assets/demo-original.mp3" preload="metadata"></audio>
-    </div>
+    <main>
+      <!-- Hero + 4 Real Samples + Reel -->
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <span class="badge-pill">🇦🇷 Producción en Argentina · Entrega digital en 24 hs</span>
+            <h1 class="hero-title">
+              ¿Y si le regalás <span class="highlight">su propia canción?</span>
+            </h1>
+            <p class="hero-lead">
+              Convertimos tus recuerdos, apodos y momentos reales en una canción única con calidad de estudio. Escuchá canciones reales que ya hicimos y encargá la tuya en 2 minutos.
+            </p>
 
-    <!-- The Funnel -->
-    <main class="funnel-card">
-      <div class="progress-track">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-
-      <!-- STEP 1: Occasion / Recipient -->
-      <div class="step-pane" id="step1">
-        <div class="step-header">
-          <span class="step-tag">Paso 1 de 4</span>
-          <h1 class="step-title">¿A quién querés sorprender?</h1>
-          <p class="step-sub">Elegí la ocasión para personalizar la composición:</p>
-        </div>
-
-        <div class="options-stack">
-          <button type="button" class="opt-btn" onclick="selectStep1('Mi Pareja / Aniversario')">
-            <span class="opt-emoji">💍</span> Mi Pareja (Aniversario / Amor)
-          </button>
-          <button type="button" class="opt-btn" onclick="selectStep1('Hijo o Hija / Cumpleaños')">
-            <span class="opt-emoji">🎂</span> Mi Hijo / Hija (Cumpleaños)
-          </button>
-          <button type="button" class="opt-btn" onclick="selectStep1('Fiesta de 15 Años / Boda')">
-            <span class="opt-emoji">👑</span> Fiesta de 15 Años / Boda (Vals)
-          </button>
-          <button type="button" class="opt-btn" onclick="selectStep1('Mamá o Papá / Familia')">
-            <span class="opt-emoji">❤️</span> Mamá o Papá (Homenaje)
-          </button>
-          <button type="button" class="opt-btn" onclick="selectStep1('Amigo / Pasión / Deporte')">
-            <span class="opt-emoji">⚽</span> Amigos / Pasión / Otra ocasión
-          </button>
-        </div>
-
-        <div class="direct-skip">
-          <a id="directWaLink1" href="#" target="_blank" rel="noopener">
-            ¿Preferís pedirla directo por WhatsApp? Tocá acá
-          </a>
-        </div>
-      </div>
-
-      <!-- STEP 2: Style -->
-      <div class="step-pane" id="step2" style="display:none;">
-        <div class="step-header">
-          <span class="step-tag">Paso 2 de 4</span>
-          <h2 class="step-title">¿Qué ritmo musical le gustaría?</h2>
-          <p class="step-sub">Elegí el estilo que mejor exprese tus sentimientos:</p>
-        </div>
-
-        <div class="options-stack">
-          <button type="button" class="opt-btn" onclick="selectStep2('Balada Acústica (Guitarra & Voz)')">
-            <span class="opt-emoji">🎸</span> Balada Acústica Íntima
-          </button>
-          <button type="button" class="opt-btn" onclick="selectStep2('Pop Romántico Emotivo')">
-            <span class="opt-emoji">🎵</span> Pop Romántico Emotivo
-          </button>
-          <button type="button" class="opt-btn" onclick="selectStep2('Cumbia / Festejo Alegre')">
-            <span class="opt-emoji">💃</span> Cumbia / Ritmo Alegre
-          </button>
-          <button type="button" class="opt-btn" onclick="selectStep2('Piano Sentido y Profundo')">
-            <span class="opt-emoji">🎹</span> Piano Sentido y Profundo
-          </button>
-          <button type="button" class="opt-btn" onclick="selectStep2('Vals Emotivo / Épico')">
-            <span class="opt-emoji">👑</span> Vals Emotivo (15 Años / Boda)
-          </button>
-        </div>
-
-        <div class="nav-btns">
-          <button type="button" class="btn-back" onclick="goToStep(1)">← Atrás</button>
-        </div>
-      </div>
-
-      <!-- STEP 3: Story & Names -->
-      <div class="step-pane" id="step3" style="display:none;">
-        <div class="step-header">
-          <span class="step-tag">Paso 3 de 4</span>
-          <h2 class="step-title">Los nombres y la historia</h2>
-          <p class="step-sub">Detalles reales para escribir la letra dedicada:</p>
-        </div>
-
-        <div class="field">
-          <label>¿Cómo se llama quien recibe el regalo?</label>
-          <input type="text" id="recipientInput" placeholder="Ej. Camila / Mi vieja Rosa" />
-        </div>
-
-        <div class="field">
-          <label>Tu nombre (quien dedica)</label>
-          <input type="text" id="senderInput" placeholder="Ej. Martín" />
-        </div>
-
-        <div class="field">
-          <label>1 o 2 anécdotas, recuerdos o apodos</label>
-          <textarea id="storyInput" placeholder="Ej. Nos conocimos en Córdoba, le digo 'Gordi', le encanta el mate y siempre canta en el auto..."></textarea>
-        </div>
-
-        <div class="nav-btns">
-          <button type="button" class="btn-back" onclick="goToStep(2)">← Atrás</button>
-          <button type="button" class="btn-next" onclick="goToStep(4)">
-            Siguiente: Entrega →
-          </button>
-        </div>
-      </div>
-
-      <!-- STEP 4: Digital Delivery (Email + Optional WhatsApp) -->
-      <div class="step-pane" id="step4" style="display:none;">
-        <div class="step-header">
-          <span class="step-tag">Paso 4 de 4</span>
-          <h2 class="step-title">¿A qué correo te enviamos la canción?</h2>
-          <p class="step-sub">Recibirás tu archivo original en MP3 HD y la letra en PDF:</p>
-        </div>
-
-        <div class="field">
-          <label>Tu Correo Electrónico (Obligatorio) ✉️</label>
-          <input type="email" id="emailInput" placeholder="tu-correo@ejemplo.com" required />
-        </div>
-
-        <div class="field">
-          <label>Tu WhatsApp (Opcional — para avisarte al instante) 📲</label>
-          <input type="tel" id="phoneInput" placeholder="+54 9 11 ... / +34 ..." />
-        </div>
-
-        <div class="nav-btns">
-          <button type="button" class="btn-back" onclick="goToStep(3)">← Atrás</button>
-          <button type="button" class="btn-next" onclick="submitToCheckout()">
-            Ver mi pedido y abonar →
-          </button>
-        </div>
-      </div>
-
-      <!-- STEP 5: Order Confirmation & Payment Handoff (Automatic or VIP) -->
-      <div class="step-pane" id="step5" style="display:none;">
-        <div class="step-header">
-          <span class="step-tag" style="color:var(--gold);">¡Ficha Completada!</span>
-          <h2 class="step-title">Confirmá tu canción personalizada</h2>
-          <p class="step-sub">Producida en 24–48 hs con entrega directa a tu correo.</p>
-        </div>
-
-        <div class="final-card">
-          <div class="final-row">
-            <span>Para:</span>
-            <strong id="finalRecipient">-</strong>
-          </div>
-          <div class="final-row">
-            <span>De parte de:</span>
-            <strong id="finalSender">-</strong>
-          </div>
-          <div class="final-row">
-            <span>Ocasión:</span>
-            <strong id="finalOccasion">-</strong>
-          </div>
-          <div class="final-row">
-            <span>Estilo:</span>
-            <strong id="finalStyle">-</strong>
-          </div>
-          <div class="final-row">
-            <span>Entrega a:</span>
-            <strong id="finalEmail">-</strong>
-          </div>
-
-          <div class="price-highlight">
-            <div>
-              <span style="font-size:0.75rem;text-transform:uppercase;color:var(--text-muted);display:block;font-weight:700;">
-                Total a abonar:
-              </span>
-              <span class="price-num" id="displayFinalPrice">$20.000 ARS</span>
+            <div class="hero-actions">
+              <a href="#crear-cancion" class="btn btn-primary btn-lg" id="heroCtaBtn">
+                🎵 Crear mi canción — $14.750
+              </a>
             </div>
-            <span style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">MP3 HD + Letra PDF</span>
+
+            <div class="trust-pills">
+              <span class="trust-pill">✓ Letra <strong>100% original</strong></span>
+              <span class="trust-pill">⚡ Lista en <strong>24 hs</strong></span>
+              <span class="trust-pill">💳 Pagás seguro con <strong>Mercado Pago</strong></span>
+            </div>
+
+            <span class="hero-demos-label">🎧 Escuchá canciones reales ya entregadas a clientes:</span>
+            <div class="inline-demos" id="demos">
+              <article class="audio-card" data-audio-card="demo1">
+                <div class="audio-top">
+                  <button type="button" class="play-btn" data-play-btn="demo1" aria-label="Reproducir Llegó tu momento Ale">▶</button>
+                  <div class="audio-meta">
+                    <span class="audio-tag">Celebración · Regalo</span>
+                    <h3 class="audio-title">¡Llegó tu momento, Ale!</h3>
+                    <p class="audio-sub">Sorpresa encargada especialmente para Ale</p>
+                  </div>
+                </div>
+                <div class="audio-progress-wrap">
+                  <input type="range" min="0" max="100" value="0" class="audio-range" data-range="demo1" aria-label="Progreso Ale" />
+                  <span class="audio-time" data-time="demo1">0:00 / 0:00</span>
+                </div>
+                <audio id="audio-demo1" src="assets/sample-ale.mp3" preload="metadata"></audio>
+              </article>
+
+              <article class="audio-card" data-audio-card="demo2">
+                <div class="audio-top">
+                  <button type="button" class="play-btn" data-play-btn="demo2" aria-label="Reproducir Para Pamela">▶</button>
+                  <div class="audio-meta">
+                    <span class="audio-tag">Dedicatoria Emotiva</span>
+                    <h3 class="audio-title">Para Pamela</h3>
+                    <p class="audio-sub">Canción personalizada dedicada a Pamela</p>
+                  </div>
+                </div>
+                <div class="audio-progress-wrap">
+                  <input type="range" min="0" max="100" value="0" class="audio-range" data-range="demo2" aria-label="Progreso Pamela" />
+                  <span class="audio-time" data-time="demo2">0:00 / 0:00</span>
+                </div>
+                <audio id="audio-demo2" src="assets/sample-pamela.mp3" preload="metadata"></audio>
+              </article>
+
+              <article class="audio-card" data-audio-card="demo3">
+                <div class="audio-top">
+                  <button type="button" class="play-btn" data-play-btn="demo3" aria-label="Reproducir Maestro de la Vida">▶</button>
+                  <div class="audio-meta">
+                    <span class="audio-tag">Homenaje Especial</span>
+                    <h3 class="audio-title">Maestro de la Vida</h3>
+                    <p class="audio-sub">Dedicada a Antonio Figueroa</p>
+                  </div>
+                </div>
+                <div class="audio-progress-wrap">
+                  <input type="range" min="0" max="100" value="0" class="audio-range" data-range="demo3" aria-label="Progreso Maestro" />
+                  <span class="audio-time" data-time="demo3">0:00 / 0:00</span>
+                </div>
+                <audio id="audio-demo3" src="assets/sample-maestro.mp3" preload="metadata"></audio>
+              </article>
+
+              <article class="audio-card" data-audio-card="demo4">
+                <div class="audio-top">
+                  <button type="button" class="play-btn" data-play-btn="demo4" aria-label="Reproducir Tu lugar favorito Acústica">▶</button>
+                  <div class="audio-meta">
+                    <span class="audio-tag">Pareja · Acústica Íntima</span>
+                    <h3 class="audio-title">Tu lugar favorito (Acústica)</h3>
+                    <p class="audio-sub">Balada romántica ideal para aniversarios</p>
+                  </div>
+                </div>
+                <div class="audio-progress-wrap">
+                  <input type="range" min="0" max="100" value="0" class="audio-range" data-range="demo4" aria-label="Progreso Acústica" />
+                  <span class="audio-time" data-time="demo4">0:00 / 0:00</span>
+                </div>
+                <audio id="audio-demo4" src="assets/demo-acustica.mp3" preload="metadata"></audio>
+              </article>
+            </div>
+          </div>
+
+          <div class="hero-media">
+            <div class="reel-frame">
+              <div class="reel-inner">
+                <video
+                  id="heroVideo"
+                  src="assets/reel-demo.mp4"
+                  poster="assets/reel-poster.jpg"
+                  controls
+                  playsinline
+                  preload="metadata"
+                ></video>
+              </div>
+              <div class="reel-floating-badge">
+                <span class="dot" aria-hidden="true"></span>
+                <span><strong>Tu lugar favorito</strong> · Muestra Pop</span>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
 
-        <div class="delivery-note">
-          ⚡ <strong>Entrega Digital Garantizada:</strong> Al confirmar el pago, nuestro equipo de producción compone y graba tu canción en 24 a 48 hs con 1 ajuste incluido.
+      <!-- Song Builder (4 quick steps) + Mercado Pago Checkout -->
+      <section id="crear-cancion" class="section section-alt">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-kicker">Pedido Automático · Argentina</span>
+            <h2 class="section-title">Personalizá tu canción en 4 toques</h2>
+            <p class="section-desc">
+              Contanos tu historia, abonás con Mercado Pago y recibís tu canción terminada en tu correo o WhatsApp en 24 hs.
+            </p>
+          </div>
+
+          <div class="builder-grid">
+            <!-- Stepper -->
+            <div class="builder-card" id="stepperCard">
+              <div class="stepper-head">
+                <span class="stepper-step-tag" id="stepCounter">Paso 1 de 4</span>
+                <span style="font-size:0.8rem;color:var(--ink-soft);font-weight:600;">⏱️ Menos de 2 minutos</span>
+              </div>
+              <div class="stepper-progress-track">
+                <div class="stepper-progress-fill" id="stepperProgress"></div>
+              </div>
+
+              <!-- Step 1: Occasion -->
+              <div class="step-pane active" data-step="1">
+                <h3 class="step-question">¿Qué ocasión querés celebrar?</h3>
+                <p class="step-hint">Tocá una opción para empezar al instante:</p>
+                <div class="stepper-option-grid" id="occasionGrid">
+                  <button type="button" class="stepper-option active" data-value="Aniversario / Pareja" data-reply="❤️ ¡Gran detalle! Revivir su historia de amor en una canción emociona para siempre.">
+                    <span class="opt-emoji">💍</span> Aniversario / Pareja
+                  </button>
+                  <button type="button" class="stepper-option" data-value="Cumpleaños especial" data-reply="🎂 ¡Excelente! Es el regalo de cumpleaños que realmente deja sin palabras.">
+                    <span class="opt-emoji">🎂</span> Cumpleaños especial
+                  </button>
+                  <button type="button" class="stepper-option" data-value="15 Años / Casamiento" data-reply="👰 ¡Momento único! La cuidaremos con toda la emoción que merece esa fiesta.">
+                    <span class="opt-emoji">👰</span> 15 Años / Casamiento
+                  </button>
+                  <button type="button" class="stepper-option" data-value="Mamá, Papá o Familia" data-reply="🏡 Los homenajes familiares son las canciones que más lágrimas de alegría sacan.">
+                    <span class="opt-emoji">🏡</span> Familia / Homenaje
+                  </button>
+                  <button type="button" class="stepper-option" data-value="Fútbol / Amigos / Pasión" data-reply="⚽ ¡Qué buena idea! Ideal para amigos, cuadros de fútbol o pasiones compartidas.">
+                    <span class="opt-emoji">⚽</span> Fútbol / Amigos
+                  </button>
+                  <button type="button" class="stepper-option" data-value="Otra ocasión" data-reply="✨ Entendido. Adaptamos la letra y el ritmo exactamente a tu idea.">
+                    <span class="opt-emoji">✨</span> Otra ocasión
+                  </button>
+                </div>
+                <div class="stepper-nav">
+                  <span></span>
+                  <button type="button" class="btn btn-primary" data-next="2">Continuar →</button>
+                </div>
+              </div>
+
+              <!-- Step 2: Protagonists + Music Style & Voice -->
+              <div class="step-pane" data-step="2">
+                <div class="stepper-feedback" id="occasionFeedback">
+                  ❤️ ¡Gran detalle! Revivir su historia de amor en una canción emociona para siempre.
+                </div>
+                <h3 class="step-question">Nombres y estilo musical</h3>
+                <div class="field-grid">
+                  <div class="field">
+                    <label for="recipientName">¿Para quién es la canción?</label>
+                    <input id="recipientName" type="text" placeholder="Ej. Camila / Mamá Rosa" />
+                  </div>
+                  <div class="field">
+                    <label for="senderName">De parte de (Tu nombre)</label>
+                    <input id="senderName" type="text" placeholder="Ej. Damián" />
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label>Estilo musical</label>
+                  <div class="chip-group" id="styleChips">
+                    <button type="button" class="chip-btn active" data-value="Balada acústica">🎸 Balada acústica</button>
+                    <button type="button" class="chip-btn" data-value="Pop romántico">🎵 Pop romántico</button>
+                    <button type="button" class="chip-btn" data-value="Cumbia romántica / Fiesta">💃 Cumbia / Fiesta</button>
+                    <button type="button" class="chip-btn" data-value="Rock nacional suave">🎸 Rock nacional</button>
+                    <button type="button" class="chip-btn" data-value="Folklore / Chamamé">🎻 Folklore</button>
+                    <button type="button" class="chip-btn" data-value="Urbano / Melódico">✨ Urbano suave</button>
+                  </div>
+                </div>
+
+                <div class="field" style="margin-bottom:0;">
+                  <label>Voz principal</label>
+                  <div class="chip-group" id="voiceChips">
+                    <button type="button" class="chip-btn active" data-value="Voz masculina">🎤 Masculina</button>
+                    <button type="button" class="chip-btn" data-value="Voz femenina">🎤 Femenina</button>
+                    <button type="button" class="chip-btn" data-value="A criterio del productor">✨ Mejor opción</button>
+                  </div>
+                </div>
+
+                <div class="stepper-nav">
+                  <button type="button" class="btn btn-outline btn-sm" data-prev="1">← Atrás</button>
+                  <button type="button" class="btn btn-primary" data-next="3">Siguiente →</button>
+                </div>
+              </div>
+
+              <!-- Step 3: Story -->
+              <div class="step-pane" data-step="3">
+                <h3 class="step-question">Contanos su historia y recuerdos</h3>
+                <p class="step-hint">
+                  No necesitás escribir rimas: decinos apodos, cómo se conocieron, anécdotas o lo que querés transmitir.
+                </p>
+                <div class="inspiration-bar">
+                  <span>¿Necesitás inspiración rápida?</span>
+                  <button type="button" class="inspiration-btn" id="fillExampleBtn">✨ Insertar ejemplo</button>
+                </div>
+                <div class="field">
+                  <label for="memories">Recuerdos, apodos o detalles especiales</label>
+                  <textarea
+                    id="memories"
+                    placeholder="Ej. Nos conocimos en Córdoba hace 5 años, le digo 'Mi vida', siempre tomamos mate en la plaza y cantamos en el auto..."
+                  ></textarea>
+                </div>
+                <div class="stepper-nav">
+                  <button type="button" class="btn btn-outline btn-sm" data-prev="2">← Atrás</button>
+                  <button type="button" class="btn btn-primary" data-next="4">Siguiente →</button>
+                </div>
+              </div>
+
+              <!-- Step 4: Delivery Email & Confirmation -->
+              <div class="step-pane" data-step="4">
+                <h3 class="step-question">¿A dónde enviamos tu canción terminada?</h3>
+                <p class="step-hint">
+                  Recibís tu archivo MP3 HD y la letra en menos de 24 horas.
+                </p>
+                <div class="field-grid">
+                  <div class="field">
+                    <label for="clientEmail">Tu Correo Electrónico *</label>
+                    <input id="clientEmail" type="email" placeholder="tu@correo.com" required />
+                  </div>
+                  <div class="field">
+                    <label for="clientWhatsapp">Tu WhatsApp (Para avisarte)</label>
+                    <input id="clientWhatsapp" type="tel" placeholder="Ej. 11 5555 4444" />
+                  </div>
+                </div>
+
+                <div class="stepper-done-box">
+                  <h4>🎉 ¡Tu historia ya está lista!</h4>
+                  <p id="doneSummaryText">
+                    Completá el pago seguro con Mercado Pago en el panel de tu derecha (o abajo en celular) para iniciar la producción hoy mismo.
+                  </p>
+                  <button type="button" class="btn btn-outline btn-sm" data-prev="1">✏️ Editar mis respuestas</button>
+                </div>
+
+                <div class="stepper-nav">
+                  <button type="button" class="btn btn-outline btn-sm" data-prev="3">← Atrás</button>
+                  <span style="font-size:0.82rem;font-weight:700;color:var(--coral);">👉 Finalizá en el panel de pago</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sticky Argentina Mercado Pago Checkout Card -->
+            <aside class="checkout-card" aria-label="Resumen y pago">
+              <div class="checkout-header">
+                <div>
+                  <span style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.68);font-weight:700;">
+                    Tu Pedido · Argentina (ARS)
+                  </span>
+                  <h3 class="checkout-title">Canción Exclusiva</h3>
+                </div>
+                <div class="price-box">
+                  <span class="price-old" id="priceOldDisplay" style="display:none;"></span>
+                  <span class="price-now" id="priceNowDisplay">$14.750</span>
+                </div>
+              </div>
+
+              <div class="brief-preview">
+                <div class="brief-preview-row">
+                  <span>Ocasión:</span>
+                  <strong id="prevOccasion">Aniversario / Pareja</strong>
+                </div>
+                <div class="brief-preview-row">
+                  <span>Para:</span>
+                  <strong id="prevRecipient">Por definir</strong>
+                </div>
+                <div class="brief-preview-row">
+                  <span>Estilo:</span>
+                  <strong id="prevStyle">Balada acústica</strong>
+                </div>
+                <div class="brief-preview-row">
+                  <span>Voz:</span>
+                  <strong id="prevVoice">Voz masculina</strong>
+                </div>
+              </div>
+
+              <ul class="included-list">
+                <li>✓ Archivo MP3 HD + Letra personalizada</li>
+                <li>✓ Entrega digital en 24 hs por Email y WhatsApp</li>
+                <li>✓ Revisión previa de nombres y pronunciación</li>
+              </ul>
+
+              <div class="paypal-embed-wrap" id="paymentContainer">
+                <button type="button" class="btn btn-mp" id="mpDirectBtn">
+                  💳 Pagar con Mercado Pago ($14.750)
+                </button>
+                <div class="alias-box" id="aliasBox" style="display:none;">
+                  <div>Transferí <strong id="aliasAmountText">$14.750 ARS</strong> al Alias:</div>
+                  <strong style="font-size:1.05rem;color:#0369a1;" id="aliasText">tusong.oficial</strong>
+                  <div>
+                    <button type="button" class="alias-copy-btn" id="copyAliasBtn">📋 Copiar Alias</button>
+                  </div>
+                </div>
+                <p class="payment-note">
+                  Tarjetas de crédito/débito, saldo en cuenta o transferencia.
+                </p>
+              </div>
+
+              <button type="button" class="btn btn-whatsapp btn-sm" id="sendChatBtn">
+                💬 ¿Dudas? Consultar por WhatsApp
+              </button>
+
+              <div class="checkout-status" id="checkoutStatus" role="status" aria-live="polite"></div>
+
+              <div class="guarantee-mini">
+                🛡️ <strong>Compra Segura:</strong> Abonás con Mercado Pago. Apenas se acredita el pago, comenzamos a producir tu canción.
+              </div>
+            </aside>
+          </div>
         </div>
+      </section>
 
-        <!-- 1. Camino Automático (Checkout Web / Hotmart / Mercado Pago / Tarjetas) -->
-        <a id="mainCheckoutBtn" href="#" target="_blank" rel="noopener" class="btn-checkout-auto">
-          💳 Confirmar y Pagar Pedido
-        </a>
+      <!-- Mini FAQ -->
+      <section id="faq" class="section">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-kicker">Dudas Frecuentes</span>
+            <h2 class="section-title">Preguntas rápidas</h2>
+          </div>
 
-        <!-- 2. Camino VIP Opcional (WhatsApp directo) -->
-        <div class="vip-whatsapp-banner">
-          <p>¿Querés atención personalizada 1 a 1 o escuchar una demo previa antes de abonar?</p>
-          <a id="vipWaBtn" href="#" target="_blank" rel="noopener" class="btn-wa-pill">
-            📲 Hablar por WhatsApp con el Productor
-          </a>
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary>¿Cómo y cuándo recibo mi canción?</summary>
+              <p>Apenas confirmás el pedido con Mercado Pago, la producimos y te la enviamos en menos de 24 horas en MP3 de alta calidad a tu correo y WhatsApp.</p>
+            </details>
+            <details class="faq-item">
+              <summary>¿Qué medios de pago aceptan?</summary>
+              <p>Podés abonar con Mercado Pago (tarjetas de crédito, débito, dinero en cuenta) o transferencia bancaria en pesos argentinos.</p>
+            </details>
+          </div>
         </div>
-
-        <div class="direct-skip" style="margin-top:0.85rem;">
-          <a href="#" onclick="goToStep(1); return false;">← Modificar respuestas</a>
-        </div>
-      </div>
+      </section>
     </main>
 
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container footer-wrap">
+        <div class="brand">
+          <img src="assets/emblema.png" alt="TuSong" class="brand-emblem" style="width:28px;height:28px;" />
+          <span class="brand-name" style="font-size:1.05rem;"><span class="tu">Tu</span><span class="song">Song</span></span>
+        </div>
+        <span>Canciones Personalizadas · Argentina</span>
+        <span>© 2026 TuSong</span>
+      </div>
+    </footer>
+
+    <!-- Floating Assistant -->
+    <button type="button" class="assistant-fab" id="assistantFab" aria-expanded="false" aria-controls="assistantDrawer">
+      <span class="pulse" aria-hidden="true"></span>
+      <span>¿Dudas? Asistente</span>
+    </button>
+
+    <div class="assistant-drawer" id="assistantDrawer" role="dialog" aria-label="Asistente TuSong">
+      <div class="assistant-head">
+        <div>
+          <strong>Asistente TuSong</strong>
+          <small>Respuestas al instante</small>
+        </div>
+        <button type="button" class="assistant-close" id="assistantClose" aria-label="Cerrar">×</button>
+      </div>
+      <div class="assistant-messages" id="assistantMessages">
+        <div class="msg-bubble msg-bot">
+          ¡Hola! 👋 Tocá una consulta para responderte al instante:
+        </div>
+      </div>
+      <div class="assistant-quick">
+        <button type="button" class="quick-chip" data-q="precio">💰 Precio y pagos</button>
+        <button type="button" class="quick-chip" data-q="tiempo">⏱️ Cuánto tarda</button>
+        <button type="button" class="quick-chip" data-q="entrega">📩 Cómo llega</button>
+        <button type="button" class="quick-chip" data-q="hablar">💬 Hablar por WhatsApp</button>
+      </div>
+    </div>
+
     <script src="config.js"></script>
-    <script>
-      const cfg = window.TUSONG_CONFIG || {};
-      let currentRegion = 'AR'; // 'AR' or 'INTL'
-
-      const state = {
-        occasion: '',
-        style: '',
-        recipient: '',
-        sender: '',
-        story: '',
-        email: '',
-        phone: ''
-      };
-
-      // Set initial WhatsApp links
-      function updateWaLinks() {
-        const waNumber = cfg.whatsappNumber || '5491178130971';
-        const link1 = document.getElementById('directWaLink1');
-        if (link1) {
-          link1.href = `https://wa.me/${waNumber}?text=${encodeURIComponent('¡Hola TuSong! Quiero pedir una canción personalizada.')}`;
-        }
-      }
-      updateWaLinks();
-
-      // Audio sample
-      const audio = document.getElementById('sampleAudio');
-      const playBtn = document.getElementById('playAudioBtn');
-      const playIcon = document.getElementById('playIcon');
-      const playText = document.getElementById('playText');
-
-      if (playBtn && audio) {
-        playBtn.addEventListener('click', () => {
-          if (audio.paused) {
-            audio.play().then(() => {
-              playIcon.textContent = '❚❚';
-              playText.textContent = 'Pausar';
-            }).catch(() => {});
-          } else {
-            audio.pause();
-            playIcon.textContent = '▶';
-            playText.textContent = 'Muestra (30s)';
-          }
-        });
-        audio.addEventListener('ended', () => {
-          playIcon.textContent = '▶';
-          playText.textContent = 'Muestra (30s)';
-        });
-      }
-
-      // Region / Currency Selector
-      function setRegion(reg) {
-        currentRegion = reg;
-        document.getElementById('toggleAR').classList.toggle('active', reg === 'AR');
-        document.getElementById('toggleINTL').classList.toggle('active', reg === 'INTL');
-        updatePriceDisplay();
-      }
-
-      function updatePriceDisplay() {
-        const el = document.getElementById('displayFinalPrice');
-        if (!el) return;
-        if (currentRegion === 'AR') {
-          el.textContent = '$20.000 ARS';
-        } else {
-          el.textContent = '$29 USD / €';
-        }
-      }
-
-      // Step Navigation
-      function goToStep(num) {
-        for (let i = 1; i <= 5; i++) {
-          const pane = document.getElementById('step' + i);
-          if (pane) pane.style.display = (i === num) ? 'block' : 'none';
-        }
-        const pct = (num / 5) * 100;
-        document.getElementById('progressFill').style.width = pct + '%';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-
-      function selectStep1(occ) {
-        state.occasion = occ;
-        goToStep(2);
-      }
-
-      function selectStep2(st) {
-        state.style = st;
-        goToStep(3);
-      }
-
-      function submitToCheckout() {
-        const email = document.getElementById('emailInput').value.trim();
-        if (!email || !email.includes('@')) {
-          alert('Por favor, ingresá un correo electrónico válido para recibir tu canción.');
-          document.getElementById('emailInput').focus();
-          return;
-        }
-
-        state.recipient = document.getElementById('recipientInput').value.trim() || 'A definir';
-        state.sender = document.getElementById('senderInput').value.trim() || 'A definir';
-        state.story = document.getElementById('storyInput').value.trim() || '';
-        state.email = email;
-        state.phone = document.getElementById('phoneInput').value.trim() || 'No especificado';
-
-        document.getElementById('finalRecipient').textContent = state.recipient;
-        document.getElementById('finalSender').textContent = state.sender;
-        document.getElementById('finalOccasion').textContent = state.occasion;
-        document.getElementById('finalStyle').textContent = state.style;
-        document.getElementById('finalEmail').textContent = state.email;
-
-        updatePriceDisplay();
-
-        // 1. Send Order to Webhook/API (if configured) or store in localStorage
-        const orderData = {
-          ...state,
-          region: currentRegion,
-          price: currentRegion === 'AR' ? '$20.000 ARS' : '$29 USD',
-          date: new Date().toISOString()
-        };
-
-        try {
-          localStorage.setItem('tusong_order', JSON.stringify(orderData));
-        } catch (_) {}
-
-        if (cfg.orderWebhookUrl) {
-          fetch(cfg.orderWebhookUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(orderData)
-          }).catch(() => {});
-        }
-
-        // 2. Configure Main Payment Button (Hotmart or Mercado Pago)
-        const mainCheckoutBtn = document.getElementById('mainCheckoutBtn');
-        if (currentRegion === 'AR') {
-          // In Argentina: Mercado Pago Link or custom checkout
-          mainCheckoutBtn.href = cfg.mercadoPagoPaymentUrl || `https://wa.me/${cfg.whatsappNumber}?text=${encodeURIComponent('Hola! Completé la ficha web y quiero abonar por Mercado Pago.')}`;
-          mainCheckoutBtn.innerHTML = '💳 Abonar $20.000 (Mercado Pago / Tarjeta)';
-        } else {
-          // International (Spain, USA, etc.): Hotmart or PayPal
-          mainCheckoutBtn.href = cfg.hotmartCheckoutUrl || cfg.paypalUrl || `https://wa.me/${cfg.whatsappNumber}`;
-          mainCheckoutBtn.innerHTML = '💳 Pagar $29 USD / € (Hotmart / Google Pay / Tarjeta)';
-        }
-
-        // 3. Configure VIP WhatsApp Button
-        const waMsg = [
-          '🎵 *¡Hola TuSong! Armé mi canción en la web y quiero el servicio VIP / Demo previa:*',
-          '',
-          `• *Para:* ${state.recipient}`,
-          `• *De parte de:* ${state.sender}`,
-          `• *Ocasión:* ${state.occasion}`,
-          `• *Estilo:* ${state.style}`,
-          `• *Mi Email:* ${state.email}`,
-          state.story ? `• *Anécdota:* ${state.story}` : '',
-          '',
-          `¡Quiero consultar con el productor antes de abonar! 😊`
-        ].filter(Boolean).join('\n');
-
-        const waNumber = cfg.whatsappNumber || '5491178130971';
-        document.getElementById('vipWaBtn').href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMsg)}`;
-
-        goToStep(5);
-      }
-    </script>
+    <script src="app.js"></script>
   </body>
 </html>

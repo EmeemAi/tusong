@@ -1,47 +1,25 @@
 /**
- * Configuración global de TuSong
- * Soporte multimoneda (Argentina e Internacional: España, EE.UU., Latam)
- * Conexión a pasarelas automáticas (Hotmart, PayPal, Mercado Pago) y WhatsApp VIP.
+ * Configuración de TuSong — Argentina (ARS)
+ * Modelo de cobro previo por Mercado Pago antes de iniciar la producción.
  */
 window.TUSONG_CONFIG = {
   brandName: "TuSong",
-  
-  // Precios por región
-  pricing: {
-    AR: {
-      currency: "ARS",
-      symbol: "$",
-      price: "20.000",
-      priceVideo: "25.000",
-      label: "Argentina (ARS)"
-    },
-    INTL: {
-      currency: "USD",
-      symbol: "$",
-      price: "29",
-      priceVideo: "39",
-      label: "Internacional / España / EE.UU. (USD / €)"
-    }
-  },
+  country: "AR",
+  currency: "ARS",
 
-  // Enlaces de Pago Automático
-  // Hotmart (admite tarjetas internacionales, Google Pay, Apple Pay, PayPal, etc.)
-  hotmartCheckoutUrl: "https://pay.hotmart.com/TU_PRODUCTO_HOTMART",
+  // Precio exacto calculado (mayor valor percibido)
+  priceDisplay: "$14.750",
+  priceOldDisplay: "",
+  numericAmount: "14750",
 
-  // Mercado Pago (Argentina - Tarjetas, Dinero en cuenta, Cuotas)
-  mercadoPagoPaymentUrl: "https://mpago.la/TU_LINK_MERCADOPAGO",
+  // Link de Pago de Mercado Pago ($14.750 ARS)
+  mercadoPagoUrl: "https://mpago.la/1qwW21M",
   aliasMercadoPago: "tusong.oficial",
 
-  // PayPal directo (Internacional)
-  paypalUrl: "https://paypal.me/TU_USUARIO_PAYPAL/29USD",
+  // Webhook gratuito para recibir las fichas en tu Gmail (FormSubmit)
+  orderWebhookUrl: "https://formsubmit.co/ajax/dario.delreal@gmail.com",
 
-  // Endpoint de API / Webhook (puedes usar Formspree, Make, n8n o tu backend para recibir los pedidos por email)
-  // Si queda vacío, guarda el pedido en el navegador y redirige a la pasarela
-  orderWebhookUrl: "",
-
-  // Canal VIP / Especial WhatsApp
+  // WhatsApp Business oficial para consultas o entrega
   whatsappNumber: "5491178130971",
-  
-  // Email oficial de entrega
-  deliveryEmail: "pedidos@tusong.com"
+  deliveryEmail: "pedidos@tusong.com",
 };

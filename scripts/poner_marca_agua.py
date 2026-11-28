@@ -23,7 +23,7 @@ async def ensure_watermark(wm_path):
         communicate = edge_tts.Communicate('TuSong Producciones. Demo.', 'es-AR-ElenaNeural')
         await communicate.save(wm_path)
 
-def apply_watermark(song_path, output_path=None):
+def apply_watermark(song_path, output_path=None, max_seconds=None):
     if not os.path.exists(song_path):
         print(f"Error: {song_path} no existe.")
         return False
@@ -41,12 +41,21 @@ def apply_watermark(song_path, output_path=None):
     info = json.loads(res.stdout)
     duration = float(info['format']['duration'])
 
-    # Determine watermark times (every 22s: e.g. at 10s, 32s, 54s...)
+    if max_seconds and max_seconds < duration:
+        duration = max_seconds
+        trim_filter = f'[0:a]atrim=0:{max_seconds},afade=t=out:st={max_seconds-3}:d=3[main];'
+        main_label = '[main]'
+    else:
+        trim_filter = ''
+        main_label = '[0:a]'
+
+    # Determine watermark times
     times = []
     t = 10
-    while t < duration - 8:
+    interval = 18 if max_seconds else 22
+    while t < duration - 6:
         times.append(t)
-        t += 22
+        t += interval
 
     if not times:
         times = [max(5, int(duration // 2))]
@@ -57,15 +66,15 @@ def apply_watermark(song_path, output_path=None):
         cmd.extend(['-i', wm_path])
 
     filter_parts = []
-    inputs = ['[0:a]']
-    weights = ['0.8']
+    if trim_filter:
+        filter_parts.append(trim_filter.rstrip(';'))
+    inputs = [main_label]
     for idx, sec in enumerate(times, start=1):
         ms = int(sec * 1000)
-        filter_parts.append(f'[{idx}:a]adelay={ms}|{ms},volume=2.6[w{idx}]')
+        filter_parts.append(f'[{idx}:a]adelay={ms}|{ms},volume=1.8[w{idx}]')
         inputs.append(f'[w{idx}]')
-        weights.append('1.4')
 
-    mix_str = ''.join(inputs) + f'amix=inputs={len(inputs)}:duration=first:weights=' + ' '.join(weights) + '[out]'
+    mix_str = ''.join(inputs) + f'amix=inputs={len(inputs)}:duration=first:normalize=0,alimiter=limit=0.95[out]'
     filter_complex = ';'.join(filter_parts) + ';' + mix_str
 
     if not output_path:

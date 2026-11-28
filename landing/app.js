@@ -8,9 +8,9 @@
     return `${m}:${s < 10 ? "0" : ""}${s}`;
   }
 
-  // --- Audio & Video Coordination ---
+  // --- Audio & Video Coordination (4 Samples + Video Reel) ---
   const heroVideo = document.getElementById("heroVideo");
-  const audioPlayers = ["demo1", "demo2"].map((id) => ({
+  const audioPlayers = ["demo1", "demo2", "demo3", "demo4"].map((id) => ({
     id,
     audio: document.getElementById(`audio-${id}`),
     card: document.querySelector(`[data-audio-card="${id}"]`),
@@ -80,15 +80,27 @@
     });
   });
 
-  // --- Conversational Stepper State (Opción 1) ---
+  // --- App State (100% Argentina) ---
   const state = {
     step: 1,
     occasion: "Aniversario / Pareja",
-    style: "Balada acústica con guitarra",
+    style: "Balada acústica",
     voice: "Voz masculina",
   };
 
   const els = {
+    priceOldDisplay: document.getElementById("priceOldDisplay"),
+    priceNowDisplay: document.getElementById("priceNowDisplay"),
+    headerCtaBtn: document.getElementById("headerCtaBtn"),
+    heroCtaBtn: document.getElementById("heroCtaBtn"),
+    mpDirectBtn: document.getElementById("mpDirectBtn"),
+    aliasBox: document.getElementById("aliasBox"),
+    aliasText: document.getElementById("aliasText"),
+    aliasAmountText: document.getElementById("aliasAmountText"),
+    copyAliasBtn: document.getElementById("copyAliasBtn"),
+    sendChatBtn: document.getElementById("sendChatBtn"),
+    checkoutStatus: document.getElementById("checkoutStatus"),
+
     panes: document.querySelectorAll(".step-pane"),
     stepCounter: document.getElementById("stepCounter"),
     stepperProgress: document.getElementById("stepperProgress"),
@@ -100,55 +112,48 @@
     senderName: document.getElementById("senderName"),
     memories: document.getElementById("memories"),
     clientEmail: document.getElementById("clientEmail"),
+    clientWhatsapp: document.getElementById("clientWhatsapp"),
+    fillExampleBtn: document.getElementById("fillExampleBtn"),
+
     prevOccasion: document.getElementById("prevOccasion"),
     prevRecipient: document.getElementById("prevRecipient"),
     prevStyle: document.getElementById("prevStyle"),
     prevVoice: document.getElementById("prevVoice"),
-    fillExampleBtn: document.getElementById("fillExampleBtn"),
-    instantChatBtn: document.getElementById("instantChatBtn"),
-    skipToChatBtn: document.getElementById("skipToChatBtn"),
-    doneChatBtn: document.getElementById("doneChatBtn"),
-    doneSummaryText: document.getElementById("doneSummaryText"),
-    paypalDirectBtn: document.getElementById("paypalDirectBtn"),
-    paypalContainer: document.getElementById("paypal-button-container"),
-    sendChatBtn: document.getElementById("sendChatBtn"),
-    checkoutStatus: document.getElementById("checkoutStatus"),
-    priceNowDisplay: document.getElementById("priceNowDisplay"),
-    priceOldDisplay: document.getElementById("priceOldDisplay"),
   };
 
-  if (cfg.priceDisplay && els.priceNowDisplay) {
-    els.priceNowDisplay.textContent = cfg.priceDisplay;
-  }
-  if (cfg.originalPriceDisplay && els.priceOldDisplay) {
-    els.priceOldDisplay.textContent = cfg.originalPriceDisplay;
-  }
+  const priceText = cfg.priceDisplay || "$14.750";
 
-  function syncPreview() {
-    els.prevOccasion.textContent = state.occasion;
-    els.prevRecipient.textContent = els.recipientName.value.trim() || "Por definir";
-    els.prevStyle.textContent = state.style;
-    els.prevVoice.textContent = state.voice;
-
-    if (els.doneSummaryText) {
-      const rec = els.recipientName.value.trim();
-      const snd = els.senderName.value.trim();
-      if (rec) {
-        els.doneSummaryText.textContent = `¡Genial${snd ? ", " + snd : ""}! Ya tenemos armada la ficha base para la canción de ${rec} (${state.occasion}, estilo ${state.style}). Puedes reservar ahora por ${cfg.priceDisplay || "35 €"} o enviársela directo a Dario por chat para terminarla juntos.`;
-      }
+  function applyPriceUI() {
+    if (els.priceNowDisplay) els.priceNowDisplay.textContent = priceText;
+    if (els.priceOldDisplay) {
+      els.priceOldDisplay.textContent = cfg.priceOldDisplay || "";
+      els.priceOldDisplay.style.display = cfg.priceOldDisplay ? "block" : "none";
     }
+    if (els.headerCtaBtn) els.headerCtaBtn.textContent = `🎵 Crear mi canción · ${priceText}`;
+    if (els.heroCtaBtn) els.heroCtaBtn.textContent = `🎵 Crear mi canción — ${priceText}`;
+    if (els.mpDirectBtn) els.mpDirectBtn.textContent = `💳 Pagar con Mercado Pago (${priceText})`;
+    if (els.aliasAmountText) els.aliasAmountText.textContent = `${priceText} ARS`;
+    if (els.aliasText) els.aliasText.textContent = cfg.aliasMercadoPago || "tusong.oficial";
+  }
+
+  // --- Stepper Navigation & Preview ---
+  function syncPreview() {
+    if (els.prevOccasion) els.prevOccasion.textContent = state.occasion;
+    if (els.prevRecipient) els.prevRecipient.textContent = els.recipientName.value.trim() || "Por definir";
+    if (els.prevStyle) els.prevStyle.textContent = state.style;
+    if (els.prevVoice) els.prevVoice.textContent = state.voice;
   }
 
   function goToStep(stepNum) {
-    state.step = Math.max(1, Math.min(5, Number(stepNum)));
+    state.step = Math.max(1, Math.min(4, Number(stepNum)));
     els.panes.forEach((pane) => {
       pane.classList.toggle("active", Number(pane.dataset.step) === state.step);
     });
     if (els.stepCounter) {
-      els.stepCounter.textContent = state.step === 5 ? "¡Paso 5 de 5 · Listo!" : `Paso ${state.step} de 5`;
+      els.stepCounter.textContent = state.step === 4 ? "¡Paso 4 de 4 · Listo para enviar!" : `Paso ${state.step} de 4`;
     }
     if (els.stepperProgress) {
-      els.stepperProgress.style.width = `${state.step * 20}%`;
+      els.stepperProgress.style.width = `${state.step * 25}%`;
     }
     syncPreview();
   }
@@ -170,7 +175,7 @@
         els.occasionFeedback.textContent = btn.dataset.reply;
       }
       syncPreview();
-      setTimeout(() => goToStep(2), 200);
+      setTimeout(() => goToStep(2), 180);
     });
   });
 
@@ -198,35 +203,115 @@
 
   if (els.fillExampleBtn) {
     els.fillExampleBtn.addEventListener("click", () => {
-      if (!els.recipientName.value.trim()) els.recipientName.value = "Laura (mi pareja)";
-      if (!els.senderName.value.trim()) els.senderName.value = "Carlos";
+      if (!els.recipientName.value.trim()) els.recipientName.value = "Camila (mi pareja)";
+      if (!els.senderName.value.trim()) els.senderName.value = "Damián";
       els.memories.value =
-        "Nos conocimos bajo la lluvia en Madrid hace 4 años, la llamo 'Mi pequeña', siempre cantamos en el coche rumbo a la playa y nos encanta tomar café juntos los domingos.";
+        "Nos conocimos en Córdoba hace 5 años, le digo 'Mi vida', siempre tomamos mate en la plaza y cantamos juntos en el auto.";
       syncPreview();
     });
   }
 
-  function buildFlexibleBrief() {
-    const recipient = els.recipientName.value.trim();
-    const sender = els.senderName.value.trim();
-    const memories = els.memories.value.trim();
-    const contact = els.clientEmail.value.trim();
+  // --- Validation & Order Serialization ---
+  function getOrderPayload(statusTag) {
+    return {
+      status: statusTag || "DRAFT",
+      country: "AR",
+      currency: "ARS",
+      price: priceText,
+      occasion: state.occasion,
+      recipient: els.recipientName.value.trim(),
+      sender: els.senderName.value.trim(),
+      style: state.style,
+      voice: state.voice,
+      memories: els.memories.value.trim(),
+      email: els.clientEmail.value.trim(),
+      whatsapp: els.clientWhatsapp.value.trim(),
+      createdAt: new Date().toISOString(),
+    };
+  }
 
-    if (!recipient && !memories) {
-      return `¡Hola TuSong! 👋 Escuché las demos y me gustaría consultar para crear una canción personalizada (${cfg.priceDisplay || "$20.000"}) para: ${state.occasion}.`;
+  function buildBriefText() {
+    const p = getOrderPayload();
+    const lines = [
+      `🎵 *Pedido TuSong Argentina (${p.price})*`,
+      `• *Ocasión:* ${p.occasion}`,
+      `• *Para:* ${p.recipient || "(por definir)"}`,
+    ];
+    if (p.sender) lines.push(`• *De parte de:* ${p.sender}`);
+    lines.push(`• *Estilo:* ${p.style} (${p.voice})`);
+    if (p.memories) lines.push(`• *Historia:* ${p.memories}`);
+    if (p.email) lines.push(`• *Email entrega:* ${p.email}`);
+    if (p.whatsapp) lines.push(`• *WhatsApp:* ${p.whatsapp}`);
+    return lines.join("\n");
+  }
+
+  function validateOrder() {
+    const rec = els.recipientName.value.trim();
+    const mem = els.memories.value.trim();
+    const mail = els.clientEmail.value.trim();
+
+    if (!rec) {
+      goToStep(2);
+      showStatus("Por favor indicá para quién es la canción.", true);
+      els.recipientName.focus();
+      return false;
+    }
+    if (!mem) {
+      goToStep(3);
+      showStatus("Contanos brevemente algunos recuerdos para incluir en la letra.", true);
+      els.memories.focus();
+      return false;
+    }
+    if (!mail || !mail.includes("@")) {
+      goToStep(4);
+      showStatus("Ingresá un correo electrónico válido para enviarte tu canción.", true);
+      els.clientEmail.focus();
+      return false;
+    }
+    return true;
+  }
+
+  function submitOrderToWebhook(statusTag) {
+    const payload = getOrderPayload(statusTag);
+    try {
+      localStorage.setItem("tusong_last_order", JSON.stringify(payload));
+      localStorage.setItem("tusong_last_brief", buildBriefText());
+    } catch (_) {}
+
+    if (!cfg.orderWebhookUrl) {
+      return Promise.resolve();
     }
 
-    const lines = [
-      `🎵 *Ficha de Canción TuSong (${cfg.priceDisplay || "$20.000"})*`,
-      `• *Ocasión:* ${state.occasion}`,
-    ];
-    if (recipient) lines.push(`• *Para:* ${recipient}`);
-    if (sender) lines.push(`• *De parte de:* ${sender}`);
-    lines.push(`• *Estilo:* ${state.style} (${state.voice})`);
-    if (memories) lines.push(`• *Detalles/Recuerdos:* ${memories}`);
-    if (contact) lines.push(`• *Mi WhatsApp:* ${contact}`);
-    lines.push(`\n¡Hola! Les dejo mi historia para preparar el DEMO previo. 😊`);
-    return lines.join("\n");
+    const formPayload = {
+      _subject: `🎵 Nuevo Pedido TuSong (${priceText}) — Para ${payload.recipient || "Cliente"}`,
+      _template: "table",
+      _captcha: "false",
+      Precio: `${payload.price} ${payload.currency}`,
+      Ocasion: payload.occasion,
+      Para_Quien: payload.recipient,
+      De_Parte_De: payload.sender || "(No especificado)",
+      Estilo: `${payload.style} (${payload.voice})`,
+      Historia_y_Recuerdos: payload.memories,
+      Email_Cliente: payload.email,
+      WhatsApp_Cliente: payload.whatsapp || "(No indicó)",
+      Fecha: payload.createdAt,
+    };
+
+    const req = fetch(cfg.orderWebhookUrl, {
+      method: "POST",
+      keepalive: true,
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify(formPayload),
+    }).catch(() => {});
+
+    // Esperar hasta 1.2s para asegurar el envío antes de redirigir a Mercado Pago
+    return Promise.race([
+      req,
+      new Promise((resolve) => setTimeout(resolve, 1200)),
+    ]);
   }
 
   function showStatus(msg, isWarning) {
@@ -241,89 +326,54 @@
     els.checkoutStatus.classList.add("show");
   }
 
-  function openChatDirect(prefixNote) {
-    const brief = buildFlexibleBrief();
-    const fullText = prefixNote ? `${prefixNote}\n\n${brief}` : brief;
+  // --- Payment Button Handler (Argentina) ---
+  if (els.mpDirectBtn) {
+    els.mpDirectBtn.addEventListener("click", async () => {
+      if (!validateOrder()) return;
 
-    if (cfg.whatsappNumber) {
-      const waUrl = `https://wa.me/${cfg.whatsappNumber}?text=${encodeURIComponent(fullText)}`;
-      window.open(waUrl, "_blank", "noopener");
-      return;
-    }
+      const originalBtnText = els.mpDirectBtn.textContent;
+      els.mpDirectBtn.disabled = true;
+      els.mpDirectBtn.textContent = "⏳ Guardando ficha y abriendo Mercado Pago...";
 
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(fullText).catch(() => {});
-    }
-    showStatus(
-      "¡Mensaje copiado! Se abrirá Messenger: solo pégalo en el chat para hablar directo con Dario.",
-      false
-    );
-    setTimeout(() => {
-      window.open(cfg.messengerUrl || "https://m.me/584160754786937", "_blank", "noopener");
-    }, 600);
-  }
+      await submitOrderToWebhook("AR_MERCADOPAGO_INITIATED");
 
-  [els.instantChatBtn, els.skipToChatBtn, els.doneChatBtn, els.sendChatBtn].forEach((btn) => {
-    if (btn) {
-      btn.addEventListener("click", () => openChatDirect(""));
-    }
-  });
+      if (cfg.mercadoPagoUrl) {
+        showStatus(`¡Ficha enviada! Redirigiendo a Mercado Pago (${priceText})...`, false);
+        window.location.href = cfg.mercadoPagoUrl;
+        return;
+      }
 
-  // --- Embedded PayPal SDK or Direct PayPal Link ---
-  if (cfg.paypalClientId) {
-    els.paypalDirectBtn.style.display = "none";
-    const script = document.createElement("script");
-    script.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(
-      cfg.paypalClientId
-    )}&currency=EUR`;
-    script.onload = () => {
-      if (!window.paypal) return;
-      window.paypal
-        .Buttons({
-          style: { layout: "vertical", shape: "pill", label: "pay" },
-          createOrder: (data, actions) => {
-            return actions.order.create({
-              purchase_units: [
-                {
-                  description: `TuSong - Canción personalizada (${state.occasion})`,
-                  amount: { currency_code: "EUR", value: cfg.priceEur || "35.00" },
-                },
-              ],
-            });
-          },
-          onApprove: (data, actions) => {
-            return actions.order.capture().then(() => {
-              showStatus(
-                "¡Pago confirmado! Ahora toca el botón de Chat para enviarle los detalles finales a Dario.",
-                false
-              );
-              openChatDirect("✅ ¡Pago realizado por PayPal!");
-            });
-          },
-          onError: () => {
-            showStatus(
-              "Hubo un problema al abrir PayPal. Puedes usar el botón de chat para hablar con Dario.",
-              true
-            );
-          },
-        })
-        .render("#paypal-button-container");
-    };
-    document.body.appendChild(script);
-  } else {
-    els.paypalDirectBtn.addEventListener("click", () => {
-      const brief = buildFlexibleBrief();
-      try {
-        localStorage.setItem("tusong_last_brief", brief);
-      } catch (_) {}
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(brief).catch(() => {});
+      els.mpDirectBtn.disabled = false;
+      els.mpDirectBtn.textContent = originalBtnText;
+
+      if (els.aliasBox) {
+        els.aliasBox.style.display = "block";
       }
       showStatus(
-        "Abriendo PayPal seguro (35 €). Al terminar tu pago, toca el botón de chat para pasarnos tu historia.",
+        "¡Tu historia quedó guardada! Transferí al Alias y envianos el comprobante por WhatsApp para comenzar hoy mismo.",
         false
       );
-      window.open(cfg.paypalPaymentUrl, "_blank", "noopener");
+    });
+  }
+
+  if (els.copyAliasBtn) {
+    els.copyAliasBtn.addEventListener("click", () => {
+      const alias = cfg.aliasMercadoPago || "tusong.oficial";
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(alias).catch(() => {});
+      }
+      els.copyAliasBtn.textContent = "✓ Alias copiado";
+      setTimeout(() => {
+        els.copyAliasBtn.textContent = "📋 Copiar Alias";
+      }, 2000);
+    });
+  }
+
+  if (els.sendChatBtn) {
+    els.sendChatBtn.addEventListener("click", () => {
+      const brief = buildBriefText();
+      const waUrl = `https://wa.me/${cfg.whatsappNumber}?text=${encodeURIComponent(brief)}`;
+      window.open(waUrl, "_blank", "noopener");
     });
   }
 
@@ -334,29 +384,26 @@
   const messagesBox = document.getElementById("assistantMessages");
   const quickChips = document.querySelectorAll(".quick-chip");
 
-  const answers = {
-    precio:
-      "El valor promocional es de <strong>$20.000 ARS</strong> por la canción completa en MP3 HD (o $25.000 con portada en video). Lo mejor: <strong>te armamos un DEMO previo y abonás solo si te gusta</strong> por Mercado Pago o transferencia.",
-    tiempo:
-      "La demo la entregamos habitualmente <strong>en el día o en 24 horas</strong>. La versión original en alta calidad se envía inmediatamente tras la confirmación.",
-    cambios:
-      "¡Sí! Incluye <strong>1 ajuste menor sin costo</strong> para asegurarnos de que los nombres, pronunciación y anécdotas queden impecables.",
-    hablar:
-      "¡Claro! Tocá el botón de acá abajo para abrir chat directo por WhatsApp sin tener que llenar formularios.",
-  };
-
   function toggleDrawer(open) {
     const shouldOpen = typeof open === "boolean" ? open : !drawer.classList.contains("open");
     drawer.classList.toggle("open", shouldOpen);
     fab.setAttribute("aria-expanded", String(shouldOpen));
   }
 
-  fab.addEventListener("click", () => toggleDrawer());
-  closeBtn.addEventListener("click", () => toggleDrawer(false));
+  if (fab) fab.addEventListener("click", () => toggleDrawer());
+  if (closeBtn) closeBtn.addEventListener("click", () => toggleDrawer(false));
 
   quickChips.forEach((chip) => {
     chip.addEventListener("click", () => {
       const key = chip.dataset.q;
+
+      const answers = {
+        precio: `El valor completo de tu canción personalizada es de <strong>${priceText} ARS</strong>. Abonás seguro con Mercado Pago (tarjeta, débito o transferencia).`,
+        tiempo: `Apenas se acredita el pago, la producimos y te la enviamos en <strong>menos de 24 horas</strong> en MP3 HD + letra.`,
+        entrega: `La recibís en tu email y WhatsApp lista para descargar, compartir o reproducir en cualquier parlante.`,
+        hablar: `¡Claro! Tocá el botón de abajo para abrir nuestro WhatsApp Business oficial.`,
+      };
+
       const userMsg = document.createElement("div");
       userMsg.className = "msg-bubble msg-user";
       userMsg.textContent = chip.textContent;
@@ -364,21 +411,17 @@
 
       const botMsg = document.createElement("div");
       botMsg.className = "msg-bubble msg-bot";
-      botMsg.innerHTML = answers[key] || "Escríbenos y te ayudamos enseguida.";
+      botMsg.innerHTML = answers[key] || "Escribinos y te ayudamos enseguida.";
       messagesBox.appendChild(botMsg);
 
       if (key === "hablar") {
         const linkBtn = document.createElement("a");
-        linkBtn.href = cfg.whatsappNumber
-          ? `https://wa.me/${cfg.whatsappNumber}?text=${encodeURIComponent(
-              "Hola Dario! Tengo una consulta sobre una canción personalizada de TuSong."
-            )}`
-          : cfg.messengerUrl || "https://m.me/584160754786937";
+        linkBtn.href = `https://wa.me/${cfg.whatsappNumber}?text=${encodeURIComponent("¡Hola TuSong! Tengo una consulta sobre mi canción.")}`;
         linkBtn.target = "_blank";
         linkBtn.rel = "noopener";
         linkBtn.className = "btn btn-primary btn-sm";
-        linkBtn.style.marginTop = "6px";
-        linkBtn.textContent = cfg.whatsappNumber ? "Abrir WhatsApp ↗" : "Abrir Messenger ↗";
+        linkBtn.style.marginTop = "4px";
+        linkBtn.textContent = "Abrir WhatsApp ↗";
         messagesBox.appendChild(linkBtn);
       }
 
@@ -386,5 +429,7 @@
     });
   });
 
+  // Init
+  applyPriceUI();
   syncPreview();
 })();

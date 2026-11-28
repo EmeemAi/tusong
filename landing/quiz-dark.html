@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>TuSong — Creá tu Canción Personalizada (Entrega Digital)</title>
+    <meta
+      name="description"
+      content="Convertimos tus recuerdos y anécdotas en una canción única con calidad de estudio. Pedidos automáticos internacionales con entrega a tu email o atención personalizada por WhatsApp."
+    />
+    <link rel="icon" type="image/png" href="assets/emblema.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Fraunces:opsz,wght@9..144,700;9..144,800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0d0e12;
+        --card-bg: #16171e;
+        --border: rgba(255, 255, 255, 0.1);
+        --text: #ffffff;
+        --text-muted: #9aa0a6;
+        --primary: #25d366; /* WhatsApp green */
+        --accent: #f26457;
+        --gold: #f4a236;
+        --radius: 18px;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 0.85rem 0.85rem 1.25rem;
+      }
+
+      /* Top Header */
+      .top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 480px;
+        margin: 0 auto 0.65rem;
+        width: 100%;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        text-decoration: none;
+      }
+
+      .brand img {
+        width: 32px;
+        height: 32px;
+      }
+
+      .brand-title {
+        font-family: "Fraunces", serif;
+        font-size: 1.35rem;
+        font-weight: 800;
+        color: #fff;
+      }
+
+      .brand-title span {
+        color: var(--accent);
+      }
+
+      /* Currency / Region Toggle */
+      .currency-toggle {
+        display: flex;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 2px;
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      .currency-toggle button {
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        padding: 0.25rem 0.55rem;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .currency-toggle button.active {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      /* Audio Pill */
+      .audio-pill-wrap {
+        max-width: 480px;
+        margin: 0 auto 0.85rem;
+        width: 100%;
+      }
+
+      .audio-pill {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 0.4rem 0.85rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.82rem;
+        color: var(--text-muted);
+      }
+
+      .audio-pill button {
+        background: var(--accent);
+        border: none;
+        color: #fff;
+        padding: 0.3rem 0.75rem;
+        border-radius: 999px;
+        font-size: 0.76rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+
+      /* Main Card */
+      .funnel-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        max-width: 480px;
+        margin: 0 auto;
+        width: 100%;
+        padding: 1.35rem 1.15rem;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      /* Progress Bar */
+      .progress-track {
+        background: rgba(255, 255, 255, 0.08);
+        height: 6px;
+        border-radius: 999px;
+        margin-bottom: 1.15rem;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        background: linear-gradient(90deg, var(--accent), var(--gold));
+        height: 100%;
+        width: 20%;
+        border-radius: 999px;
+        transition: width 0.3s ease;
+      }
+
+      .step-header {
+        margin-bottom: 1.15rem;
+      }
+
+      .step-tag {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--gold);
+        font-weight: 800;
+        display: block;
+        margin-bottom: 0.3rem;
+      }
+
+      .step-title {
+        font-family: "Fraunces", serif;
+        font-size: 1.45rem;
+        line-height: 1.25;
+        color: #ffffff;
+      }
+
+      .step-sub {
+        font-size: 0.86rem;
+        color: var(--text-muted);
+        margin-top: 0.3rem;
+      }
+
+      /* Touch Options */
+      .options-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        margin-bottom: 1.25rem;
+      }
+
+      .opt-btn {
+        background: rgba(255, 255, 255, 0.035);
+        border: 1.5px solid var(--border);
+        color: #ffffff;
+        padding: 0.85rem 1rem;
+        border-radius: 14px;
+        font-size: 0.98rem;
+        font-weight: 600;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+      }
+
+      .opt-btn:active,
+      .opt-btn.active {
+        background: rgba(242, 100, 87, 0.15);
+        border-color: var(--accent);
+      }
+
+      .opt-emoji {
+        font-size: 1.35rem;
+      }
+
+      /* Fields */
+      .field {
+        margin-bottom: 0.95rem;
+      }
+
+      .field label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--text-muted);
+        margin-bottom: 0.35rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .field input,
+      .field textarea {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        color: #fff;
+        padding: 0.85rem 1rem;
+        font-size: 0.98rem;
+        outline: none;
+        transition: border 0.2s;
+      }
+
+      .field input:focus,
+      .field textarea:focus {
+        border-color: var(--accent);
+      }
+
+      .field textarea {
+        resize: none;
+        height: 80px;
+      }
+
+      /* Nav Buttons */
+      .nav-btns {
+        display: flex;
+        gap: 0.65rem;
+        align-items: center;
+        margin-top: 1rem;
+      }
+
+      .btn-back {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        padding: 0.85rem 1rem;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        cursor: pointer;
+      }
+
+      .btn-next {
+        background: var(--accent);
+        border: none;
+        color: #fff;
+        padding: 0.85rem 1.2rem;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 0.98rem;
+        flex-grow: 1;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        box-shadow: 0 8px 20px rgba(242, 100, 87, 0.35);
+      }
+
+      /* Summary Box */
+      .final-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px dashed rgba(244, 162, 54, 0.4);
+        border-radius: 14px;
+        padding: 1.1rem;
+        margin-bottom: 1.15rem;
+      }
+
+      .final-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.88rem;
+        margin-bottom: 0.45rem;
+        color: var(--text-muted);
+      }
+
+      .final-row strong {
+        color: #fff;
+      }
+
+      .price-highlight {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        border-top: 1px solid var(--border);
+        padding-top: 0.75rem;
+        margin-top: 0.75rem;
+      }
+
+      .price-num {
+        font-family: "Fraunces", serif;
+        font-size: 1.85rem;
+        font-weight: 800;
+        color: var(--gold);
+      }
+
+      /* Delivery Badge */
+      .delivery-note {
+        font-size: 0.82rem;
+        color: #bae6fd;
+        background: rgba(14, 165, 233, 0.12);
+        border: 1px solid rgba(14, 165, 233, 0.25);
+        padding: 0.65rem 0.85rem;
+        border-radius: 10px;
+        margin-bottom: 1.15rem;
+        line-height: 1.45;
+      }
+
+      /* Automated Checkout Button */
+      .btn-checkout-auto {
+        background: linear-gradient(135deg, #f4a236 0%, #e08b16 100%);
+        color: #fff !important;
+        border: none;
+        padding: 1.05rem;
+        border-radius: 14px;
+        font-size: 1.05rem;
+        font-weight: 800;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        text-decoration: none;
+        box-shadow: 0 10px 25px rgba(244, 162, 54, 0.35);
+        margin-bottom: 0.85rem;
+      }
+
+      /* VIP WhatsApp Banner */
+      .vip-whatsapp-banner {
+        background: rgba(37, 211, 102, 0.08);
+        border: 1px solid rgba(37, 211, 102, 0.25);
+        border-radius: 14px;
+        padding: 0.9rem;
+        text-align: center;
+      }
+
+      .vip-whatsapp-banner p {
+        font-size: 0.82rem;
+        color: #86efac;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+
+      .btn-wa-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: var(--primary);
+        color: #fff;
+        padding: 0.55rem 1rem;
+        border-radius: 999px;
+        font-size: 0.88rem;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .direct-skip {
+        text-align: center;
+        margin-top: 0.75rem;
+      }
+
+      .direct-skip a {
+        color: var(--text-muted);
+        font-size: 0.82rem;
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Header -->
+    <header class="top-bar">
+      <a href="#" class="brand">
+        <img src="assets/emblema.png" alt="TuSong" />
+        <span class="brand-title">Tu<span>Song</span></span>
+      </a>
+
+      <!-- Region & Currency Selector -->
+      <div class="currency-toggle">
+        <button type="button" id="toggleAR" class="active" onclick="setRegion('AR')">🇦🇷 ARS</button>
+        <button type="button" id="toggleINTL" onclick="setRegion('INTL')">🌎 USD / €</button>
+      </div>
+    </header>
+
+    <!-- Compact Audio Sample -->
+    <div class="audio-pill-wrap">
+      <div class="audio-pill">
+        <span>🎵 Escuchá cómo suena una canción real:</span>
+        <button type="button" id="playAudioBtn">
+          <span id="playIcon">▶</span> <span id="playText">Muestra (30s)</span>
+        </button>
+      </div>
+      <audio id="sampleAudio" src="assets/demo-original.mp3" preload="metadata"></audio>
+    </div>
+
+    <!-- The Funnel -->
+    <main class="funnel-card">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <!-- STEP 1: Occasion / Recipient -->
+      <div class="step-pane" id="step1">
+        <div class="step-header">
+          <span class="step-tag">Paso 1 de 4</span>
+          <h1 class="step-title">¿A quién querés sorprender?</h1>
+          <p class="step-sub">Elegí la ocasión para personalizar la composición:</p>
+        </div>
+
+        <div class="options-stack">
+          <button type="button" class="opt-btn" onclick="selectStep1('Mi Pareja / Aniversario')">
+            <span class="opt-emoji">💍</span> Mi Pareja (Aniversario / Amor)
+          </button>
+          <button type="button" class="opt-btn" onclick="selectStep1('Hijo o Hija / Cumpleaños')">
+            <span class="opt-emoji">🎂</span> Mi Hijo / Hija (Cumpleaños)
+          </button>
+          <button type="button" class="opt-btn" onclick="selectStep1('Fiesta de 15 Años / Boda')">
+            <span class="opt-emoji">👑</span> Fiesta de 15 Años / Boda (Vals)
+          </button>
+          <button type="button" class="opt-btn" onclick="selectStep1('Mamá o Papá / Familia')">
+            <span class="opt-emoji">❤️</span> Mamá o Papá (Homenaje)
+          </button>
+          <button type="button" class="opt-btn" onclick="selectStep1('Amigo / Pasión / Deporte')">
+            <span class="opt-emoji">⚽</span> Amigos / Pasión / Otra ocasión
+          </button>
+        </div>
+
+        <div class="direct-skip">
+          <a id="directWaLink1" href="#" target="_blank" rel="noopener">
+            ¿Preferís pedirla directo por WhatsApp? Tocá acá
+          </a>
+        </div>
+      </div>
+
+      <!-- STEP 2: Style -->
+      <div class="step-pane" id="step2" style="display:none;">
+        <div class="step-header">
+          <span class="step-tag">Paso 2 de 4</span>
+          <h2 class="step-title">¿Qué ritmo musical le gustaría?</h2>
+          <p class="step-sub">Elegí el estilo que mejor exprese tus sentimientos:</p>
+        </div>
+
+        <div class="options-stack">
+          <button type="button" class="opt-btn" onclick="selectStep2('Balada Acústica (Guitarra & Voz)')">
+            <span class="opt-emoji">🎸</span> Balada Acústica Íntima
+          </button>
+          <button type="button" class="opt-btn" onclick="selectStep2('Pop Romántico Emotivo')">
+            <span class="opt-emoji">🎵</span> Pop Romántico Emotivo
+          </button>
+          <button type="button" class="opt-btn" onclick="selectStep2('Cumbia / Festejo Alegre')">
+            <span class="opt-emoji">💃</span> Cumbia / Ritmo Alegre
+          </button>
+          <button type="button" class="opt-btn" onclick="selectStep2('Piano Sentido y Profundo')">
+            <span class="opt-emoji">🎹</span> Piano Sentido y Profundo
+          </button>
+          <button type="button" class="opt-btn" onclick="selectStep2('Vals Emotivo / Épico')">
+            <span class="opt-emoji">👑</span> Vals Emotivo (15 Años / Boda)
+          </button>
+        </div>
+
+        <div class="nav-btns">
+          <button type="button" class="btn-back" onclick="goToStep(1)">← Atrás</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Story & Names -->
+      <div class="step-pane" id="step3" style="display:none;">
+        <div class="step-header">
+          <span class="step-tag">Paso 3 de 4</span>
+          <h2 class="step-title">Los nombres y la historia</h2>
+          <p class="step-sub">Detalles reales para escribir la letra dedicada:</p>
+        </div>
+
+        <div class="field">
+          <label>¿Cómo se llama quien recibe el regalo?</label>
+          <input type="text" id="recipientInput" placeholder="Ej. Camila / Mi vieja Rosa" />
+        </div>
+
+        <div class="field">
+          <label>Tu nombre (quien dedica)</label>
+          <input type="text" id="senderInput" placeholder="Ej. Martín" />
+        </div>
+
+        <div class="field">
+          <label>1 o 2 anécdotas, recuerdos o apodos</label>
+          <textarea id="storyInput" placeholder="Ej. Nos conocimos en Córdoba, le digo 'Gordi', le encanta el mate y siempre canta en el auto..."></textarea>
+        </div>
+
+        <div class="nav-btns">
+          <button type="button" class="btn-back" onclick="goToStep(2)">← Atrás</button>
+          <button type="button" class="btn-next" onclick="goToStep(4)">
+            Siguiente: Entrega →
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Digital Delivery (Email + Optional WhatsApp) -->
+      <div class="step-pane" id="step4" style="display:none;">
+        <div class="step-header">
+          <span class="step-tag">Paso 4 de 4</span>
+          <h2 class="step-title">¿A qué correo te enviamos la canción?</h2>
+          <p class="step-sub">Recibirás tu archivo original en MP3 HD y la letra en PDF:</p>
+        </div>
+
+        <div class="field">
+          <label>Tu Correo Electrónico (Obligatorio) ✉️</label>
+          <input type="email" id="emailInput" placeholder="tu-correo@ejemplo.com" required />
+        </div>
+
+        <div class="field">
+          <label>Tu WhatsApp (Opcional — para avisarte al instante) 📲</label>
+          <input type="tel" id="phoneInput" placeholder="+54 9 11 ... / +34 ..." />
+        </div>
+
+        <div class="nav-btns">
+          <button type="button" class="btn-back" onclick="goToStep(3)">← Atrás</button>
+          <button type="button" class="btn-next" onclick="submitToCheckout()">
+            Ver mi pedido y abonar →
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 5: Order Confirmation & Payment Handoff (Automatic or VIP) -->
+      <div class="step-pane" id="step5" style="display:none;">
+        <div class="step-header">
+          <span class="step-tag" style="color:var(--gold);">¡Ficha Completada!</span>
+          <h2 class="step-title">Confirmá tu canción personalizada</h2>
+          <p class="step-sub">Producida en 24–48 hs con entrega directa a tu correo.</p>
+        </div>
+
+        <div class="final-card">
+          <div class="final-row">
+            <span>Para:</span>
+            <strong id="finalRecipient">-</strong>
+          </div>
+          <div class="final-row">
+            <span>De parte de:</span>
+            <strong id="finalSender">-</strong>
+          </div>
+          <div class="final-row">
+            <span>Ocasión:</span>
+            <strong id="finalOccasion">-</strong>
+          </div>
+          <div class="final-row">
+            <span>Estilo:</span>
+            <strong id="finalStyle">-</strong>
+          </div>
+          <div class="final-row">
+            <span>Entrega a:</span>
+            <strong id="finalEmail">-</strong>
+          </div>
+
+          <div class="price-highlight">
+            <div>
+              <span style="font-size:0.75rem;text-transform:uppercase;color:var(--text-muted);display:block;font-weight:700;">
+                Total a abonar:
+              </span>
+              <span class="price-num" id="displayFinalPrice">$20.000 ARS</span>
+            </div>
+            <span style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">MP3 HD + Letra PDF</span>
+          </div>
+        </div>
+
+        <div class="delivery-note">
+          ⚡ <strong>Entrega Digital Garantizada:</strong> Al confirmar el pago, nuestro equipo de producción compone y graba tu canción en 24 a 48 hs con 1 ajuste incluido.
+        </div>
+
+        <!-- 1. Camino Automático (Checkout Web / Hotmart / Mercado Pago / Tarjetas) -->
+        <a id="mainCheckoutBtn" href="#" target="_blank" rel="noopener" class="btn-checkout-auto">
+          💳 Confirmar y Pagar Pedido
+        </a>
+
+        <!-- 2. Camino VIP Opcional (WhatsApp directo) -->
+        <div class="vip-whatsapp-banner">
+          <p>¿Querés atención personalizada 1 a 1 o escuchar una demo previa antes de abonar?</p>
+          <a id="vipWaBtn" href="#" target="_blank" rel="noopener" class="btn-wa-pill">
+            📲 Hablar por WhatsApp con el Productor
+          </a>
+        </div>
+
+        <div class="direct-skip" style="margin-top:0.85rem;">
+          <a href="#" onclick="goToStep(1); return false;">← Modificar respuestas</a>
+        </div>
+      </div>
+    </main>
+
+    <script src="config.js"></script>
+    <script>
+      const cfg = window.TUSONG_CONFIG || {};
+      let currentRegion = 'AR'; // 'AR' or 'INTL'
+
+      const state = {
+        occasion: '',
+        style: '',
+        recipient: '',
+        sender: '',
+        story: '',
+        email: '',
+        phone: ''
+      };
+
+      // Set initial WhatsApp links
+      function updateWaLinks() {
+        const waNumber = cfg.whatsappNumber || '5491178130971';
+        const link1 = document.getElementById('directWaLink1');
+        if (link1) {
+          link1.href = `https://wa.me/${waNumber}?text=${encodeURIComponent('¡Hola TuSong! Quiero pedir una canción personalizada.')}`;
+        }
+      }
+      updateWaLinks();
+
+      // Audio sample
+      const audio = document.getElementById('sampleAudio');
+      const playBtn = document.getElementById('playAudioBtn');
+      const playIcon = document.getElementById('playIcon');
+      const playText = document.getElementById('playText');
+
+      if (playBtn && audio) {
+        playBtn.addEventListener('click', () => {
+          if (audio.paused) {
+            audio.play().then(() => {
+              playIcon.textContent = '❚❚';
+              playText.textContent = 'Pausar';
+            }).catch(() => {});
+          } else {
+            audio.pause();
+            playIcon.textContent = '▶';
+            playText.textContent = 'Muestra (30s)';
+          }
+        });
+        audio.addEventListener('ended', () => {
+          playIcon.textContent = '▶';
+          playText.textContent = 'Muestra (30s)';
+        });
+      }
+
+      // Region / Currency Selector
+      function setRegion(reg) {
+        currentRegion = reg;
+        document.getElementById('toggleAR').classList.toggle('active', reg === 'AR');
+        document.getElementById('toggleINTL').classList.toggle('active', reg === 'INTL');
+        updatePriceDisplay();
+      }
+
+      function updatePriceDisplay() {
+        const el = document.getElementById('displayFinalPrice');
+        if (!el) return;
+        if (currentRegion === 'AR') {
+          el.textContent = '$20.000 ARS';
+        } else {
+          el.textContent = '$29 USD / €';
+        }
+      }
+
+      // Step Navigation
+      function goToStep(num) {
+        for (let i = 1; i <= 5; i++) {
+          const pane = document.getElementById('step' + i);
+          if (pane) pane.style.display = (i === num) ? 'block' : 'none';
+        }
+        const pct = (num / 5) * 100;
+        document.getElementById('progressFill').style.width = pct + '%';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function selectStep1(occ) {
+        state.occasion = occ;
+        goToStep(2);
+      }
+
+      function selectStep2(st) {
+        state.style = st;
+        goToStep(3);
+      }
+
+      function submitToCheckout() {
+        const email = document.getElementById('emailInput').value.trim();
+        if (!email || !email.includes('@')) {
+          alert('Por favor, ingresá un correo electrónico válido para recibir tu canción.');
+          document.getElementById('emailInput').focus();
+          return;
+        }
+
+        state.recipient = document.getElementById('recipientInput').value.trim() || 'A definir';
+        state.sender = document.getElementById('senderInput').value.trim() || 'A definir';
+        state.story = document.getElementById('storyInput').value.trim() || '';
+        state.email = email;
+        state.phone = document.getElementById('phoneInput').value.trim() || 'No especificado';
+
+        document.getElementById('finalRecipient').textContent = state.recipient;
+        document.getElementById('finalSender').textContent = state.sender;
+        document.getElementById('finalOccasion').textContent = state.occasion;
+        document.getElementById('finalStyle').textContent = state.style;
+        document.getElementById('finalEmail').textContent = state.email;
+
+        updatePriceDisplay();
+
+        // 1. Send Order to Webhook/API (if configured) or store in localStorage
+        const orderData = {
+          ...state,
+          region: currentRegion,
+          price: currentRegion === 'AR' ? '$20.000 ARS' : '$29 USD',
+          date: new Date().toISOString()
+        };
+
+        try {
+          localStorage.setItem('tusong_order', JSON.stringify(orderData));
+        } catch (_) {}
+
+        if (cfg.orderWebhookUrl) {
+          fetch(cfg.orderWebhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderData)
+          }).catch(() => {});
+        }
+
+        // 2. Configure Main Payment Button (Hotmart or Mercado Pago)
+        const mainCheckoutBtn = document.getElementById('mainCheckoutBtn');
+        if (currentRegion === 'AR') {
+          // In Argentina: Mercado Pago Link or custom checkout
+          mainCheckoutBtn.href = cfg.mercadoPagoPaymentUrl || `https://wa.me/${cfg.whatsappNumber}?text=${encodeURIComponent('Hola! Completé la ficha web y quiero abonar por Mercado Pago.')}`;
+          mainCheckoutBtn.innerHTML = '💳 Abonar $20.000 (Mercado Pago / Tarjeta)';
+        } else {
+          // International (Spain, USA, etc.): Hotmart or PayPal
+          mainCheckoutBtn.href = cfg.hotmartCheckoutUrl || cfg.paypalUrl || `https://wa.me/${cfg.whatsappNumber}`;
+          mainCheckoutBtn.innerHTML = '💳 Pagar $29 USD / € (Hotmart / Google Pay / Tarjeta)';
+        }
+
+        // 3. Configure VIP WhatsApp Button
+        const waMsg = [
+          '🎵 *¡Hola TuSong! Armé mi canción en la web y quiero el servicio VIP / Demo previa:*',
+          '',
+          `• *Para:* ${state.recipient}`,
+          `• *De parte de:* ${state.sender}`,
+          `• *Ocasión:* ${state.occasion}`,
+          `• *Estilo:* ${state.style}`,
+          `• *Mi Email:* ${state.email}`,
+          state.story ? `• *Anécdota:* ${state.story}` : '',
+          '',
+          `¡Quiero consultar con el productor antes de abonar! 😊`
+        ].filter(Boolean).join('\n');
+
+        const waNumber = cfg.whatsappNumber || '5491178130971';
+        document.getElementById('vipWaBtn').href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMsg)}`;
+
+        goToStep(5);
+      }
+    </script>
+  </body>
+</html>
